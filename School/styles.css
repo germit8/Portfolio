@@ -1,0 +1,12 @@
+.boxes2 {
+    display: inline-block;
+}
+
+span {
+    width: 100px;
+    text-align: center;
+}
+
+.inline {
+    display: inline;
+}
