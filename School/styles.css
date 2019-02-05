@@ -9,4 +9,11 @@ span {
 
 .inline {
     display: inline;
+    position: relative;
+    top: 20px;
+    bottom: 0px;
+}
+
+div {
+    font-size: 30px;
 }

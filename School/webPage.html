@@ -8,28 +8,28 @@
 	<title>Timer</title>
 </head>
 
-<body onload="autoTimer(); clockTime()">
-Čas: <span id="time">___</span>
+<body onload="clockTime()">
+Čas: <span id="time"></span>
 <br></br>
 	<div class="boxes1">
+		<section class="relative">
+			<input type="button" value="Random Number Generator" onclick="randomizeNumber()">
+		</section>	
+			
+		<section class="relative">
+			<input type="text" id="randomizeNumber" readonly="readonly" placeholder="Random Number">
+		</section>
+
 		<section class="inline">
 			<input type="button" value="Stop" onclick="stopTime()">
 		</section>
 
 		<section class="inline">
-			<input type="button" value="Continue" onclick="continueTime()">
+			<input type="button" value="Continue" onclick="autoTimer()">
 		</section>
 
 		<section class="inline">
-			<span id="output">--</span>
-		</section>
-		
-		<section class="inline">
-			<input type="button" value="Random Number Generator" onclick="randomizeNumber()">
-		</section>	
-			
-		<section class="inline">
-			<input type="text" id="randomizeNumber" readonly="readonly" placeholder="Random Number">
+			<span id="output">5</span>
 		</section>
 	</div>
 
@@ -59,6 +59,8 @@
 		<section class="boxes2">
 			<input type="button" value="Reset" onclick="resetIt()">
 		</section>
+
+		<p>Press Enter or 'Check It' to submit your answer and press Spacebar or 'Reset' to reset all values.</p>
 	</div>
 	
 </body>

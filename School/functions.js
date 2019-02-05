@@ -1,4 +1,4 @@
-let timeFlow = 0;
+let timeFlow = 5;
 let timer;
 let clockTimer;
 let randomNumber1;
@@ -7,26 +7,29 @@ let randomMathOperation;
 let randomOperator;
 let randomStringText;
 
-// funkce na zvyšování a zobrazování časovače na stránce
+/* funkce na zvyšování a zobrazování časovače na stránce 
+kontrola vypršení času při výpočtech a reset*/
 function timeIncrement() {
-	timeFlow += 1;
-	document.getElementById("output").innerHTML = timeFlow;
+	timeFlow -= 1;
+    document.getElementById("output").innerHTML = timeFlow;
+    
+    if (timeFlow == 0) {
+        stopTime();
+        document.getElementById("resultMessage").innerHTML = "You ran out of time! Try again.";
+        document.getElementById("resultNumber").value = null;
+        timeFlow = 5;
+        document.getElementById("output").innerHTML = `${timeFlow}`;
+    }
 }
 
-// funkce na počítání vteřin od spuštění stránky
+// funkce na nastavení intervalu časovače
 function autoTimer() {
     timer = setInterval(timeIncrement, 1000);
-    clockTimer = setInterval(clockTime, 1000);
 }
 
-// funkce na zastavení timeru
+// funkce na zastavení časovače
 function stopTime() {
 	clearInterval(timer);
-}
-
-// funkce na pokračování timeru
-function continueTime() {
-    autoTimer();
 }
 
 // funkce na generování náhodného čísla
@@ -55,9 +58,11 @@ function giveMeRandomNumbers() {
 
     document.getElementById("operationOfRandomNumbers").innerHTML = randomStringText;
     document.getElementById("resultNumber").focus();
+
+    autoTimer();
 }
 
-// funkce na kontrolu výsledku
+// funkce na kontrolu výsledku a zastavení času po potvrzení zadané hodnoty
 function checkIt() {
 	let humanGuess = document.getElementById("resultNumber").value;
     let randomOperation;
@@ -76,15 +81,19 @@ function checkIt() {
 		document.getElementById("resultMessage").innerHTML = "Congratulations! That is correct.";
 	} else {
 		document.getElementById("resultMessage").innerHTML = "Incorrect. Try again.";
-	}
+    }
+
+    stopTime();
 }
 
-// funkce na clearnutí zprávy hodnotící výsledek a random čísla
+// funkce na resetnutí parametrů stránky
 function resetIt() {
     document.getElementById("resultMessage").innerHTML = "Result Message";
     document.getElementById("randomizeNumber").value = null;
     document.getElementById("operationOfRandomNumbers").innerHTML = "Operation";
     document.getElementById("resultNumber").value = null;
+    timeFlow = 5;
+    document.getElementById("output").innerHTML = `${timeFlow}`;
 }
 
 // funkce na mačkání tlačítek
@@ -99,7 +108,12 @@ function pressKey(event) {
     }
 }
 
-// funkce na běh času
-function clockTime() {
+// funkce na fetch času z jiného zdroje času
+function clockIncrement() {
     updateElementFromPlainText("http://ajax.damto.cz/textplain.php", "time");
+}
+
+// funkce na aktualizaci a obnovu času
+function clockTime() {
+    clockTimer = setInterval(clockIncrement, 1000);
 }
