@@ -10,7 +10,7 @@ let randomStringText;
 /* funkce na zvyšování a zobrazování časovače na stránce 
 kontrola vypršení času při výpočtech a reset*/
 function timeIncrement() {
-	timeFlow -= 1;
+    timeFlow -= 1;
     document.getElementById("output").innerHTML = timeFlow;
     
     if (timeFlow == 0) {
