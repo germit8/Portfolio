@@ -99,12 +99,13 @@ function resetIt() {
 // funkce na mačkání tlačítek
 function pressKey(event) {
     let pressed = event.code;
-
-    if (pressed == "Enter") {
-        checkIt();
-    } 
-    if (pressed == "Space") {
-        resetIt();
+    switch(pressed) {
+        case "Enter":
+            checkIt();
+            break;
+        case "Space":
+            resetIt();
+            break; 
     }
 }
 
