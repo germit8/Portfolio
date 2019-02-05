@@ -19,6 +19,7 @@ function timeIncrement() {
         document.getElementById("resultNumber").value = null;
         timeFlow = 5;
         document.getElementById("output").innerHTML = `${timeFlow}`;
+        setTimeout(resetIt, 2000);
     }
 }
 
@@ -44,14 +45,19 @@ function giveMeRandomNumbers() {
     randomNumber2 = Math.round(Math.random() * 100);
     randomMathOperation = Math.round(Math.random() * 4);
 
-    if (randomMathOperation == 1) {
-        randomOperator = " + ";
-    } else if (randomMathOperation == 2) {
-        randomOperator = " - ";
-    } else if (randomMathOperation == 3) {
-        randomOperator = " * ";
-    } else {
-        randomOperator = " / ";
+    switch(randomMathOperation) {
+        case 1:
+            randomOperator = " + ";
+            break;
+        case 2:
+            randomOperator = " - ";
+            break;
+        case 3:
+            randomOperator = " * ";
+            break;
+        case 4:
+            randomOperator = " / ";
+            break;
     }
 
     randomStringText = (`${randomNumber1} ${randomOperator} ${randomNumber2}`);
@@ -67,20 +73,27 @@ function checkIt() {
 	let humanGuess = document.getElementById("resultNumber").value;
     let randomOperation;
     
-    if (randomOperator === " + ") {
-        randomOperation = randomNumber1 + randomNumber2;
-    } else if (randomOperator === " - ") {
-        randomOperation = randomNumber1 - randomNumber2;
-    } else if (randomOperator === " * ") {
-        randomOperation = randomNumber1 * randomNumber2;
-    } else {
-        randomOperation = Math.round(randomNumber1 / randomNumber2);
+    switch(randomOperator) {
+        case " + ":
+            randomOperation = randomNumber1 + randomNumber2;
+            break;
+        case " - ":
+            randomOperation = randomNumber1 - randomNumber2;
+            break;
+        case " * ":
+            randomOperation = randomNumber1 * randomNumber2;
+            break;
+        case " / ":
+            randomOperation = randomNumber1 / randomNumber2;
+            break;
     }
-			
+
 	if (humanGuess == randomOperation) {
-		document.getElementById("resultMessage").innerHTML = "Congratulations! That is correct.";
+        document.getElementById("resultMessage").innerHTML = "Congratulations! That is correct.";
+        setTimeout(resetIt, 2000);
 	} else {
-		document.getElementById("resultMessage").innerHTML = "Incorrect. Try again.";
+        document.getElementById("resultMessage").innerHTML = "Incorrect. Try again.";
+        setTimeout(resetIt, 2000);
     }
 
     stopTime();
@@ -99,13 +112,14 @@ function resetIt() {
 // funkce na mačkání tlačítek
 function pressKey(event) {
     let pressed = event.code;
+
     switch(pressed) {
         case "Enter":
             checkIt();
             break;
         case "Space":
             resetIt();
-            break; 
+            break;
     }
 }
 
