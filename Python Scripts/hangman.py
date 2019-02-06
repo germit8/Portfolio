@@ -49,6 +49,11 @@ def hangman():
         # guessing letter
         print("Take a guess: ")
         guess = input()
+        if len(guess) == 2:
+            print("Guess a single letter or a word with 3 or more characters!")
+            time.sleep(1)
+            print("Take a guess: ")
+            guess = input()
         guess = guess.lower()
 
         # checking if letter is the word
