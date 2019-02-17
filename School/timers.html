@@ -3,8 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<script src="http://ajax.damto.cz/lsjsonhelper.js"></script>
-    <script src="functions.js"></script>
-    <link href="styles.css" type="text/css" rel="stylesheet">
+    <script src="timersFunctions.js"></script>
+    <link href="timersStyles.css" type="text/css" rel="stylesheet">
 	<title>Timer</title>
 </head>
 
@@ -14,21 +14,12 @@
 	<div class="boxes1">
 		<section class="relative">
 			<input type="button" value="Random Number Generator" onclick="randomizeNumber()">
-		</section>	
-			
-		<section class="relative">
 			<input type="text" id="randomizeNumber" readonly="readonly" placeholder="Random Number">
 		</section>
 
 		<section class="inline">
 			<input type="button" value="Stop" onclick="stopTime()">
-		</section>
-
-		<section class="inline">
 			<input type="button" value="Continue" onclick="autoTimer()">
-		</section>
-
-		<section class="inline">
 			<span id="output">5</span>
 		</section>
 	</div>
@@ -38,25 +29,10 @@
 	<div>
 		<section class="boxes2">
 			<input type="button" value="Generate Nums" onclick="giveMeRandomNumbers()">
-		</section>
-
-		<section class="boxes2">
 			<input type="button" value="Check" onclick="checkIt()">
-		</section>
-
-		<section class="boxes2">
 			<span id="operationOfRandomNumbers">Operation</span>
-		</section>
-
-		<section class="boxes2">
 			<input type="number" id="resultNumber" placeholder="Result" onkeyup="pressKey(event)">
-		</section>
-
-		<section class="boxes2">
 			<span id="resultMessage">Result Message</span>
-		</section>
-
-		<section class="boxes2">
 			<input type="button" value="Reset" onclick="resetIt()">
 		</section>
 
