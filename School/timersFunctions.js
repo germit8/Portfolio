@@ -10,14 +10,18 @@ let randomStringText;
 /* funkce na zvyšování a zobrazování časovače na stránce 
 kontrola vypršení času při výpočtech a reset*/
 function timeIncrement() {
+    let counterColor = document.querySelector("#output");
     timeFlow -= 1;
     document.getElementById("output").innerHTML = timeFlow;
+
+    if (timeFlow <= 2) {
+        counterColor.style.color = "red";
+    }
     
     if (timeFlow == 0) {
         stopTime();
         document.getElementById("resultMessage").innerHTML = "You ran out of time! Try again.";
         document.getElementById("resultNumber").value = null;
-        timeFlow = 5;
         document.getElementById("output").innerHTML = `${timeFlow}`;
         setTimeout(resetIt, 2000);
     }
@@ -105,6 +109,7 @@ function resetIt() {
     document.getElementById("randomizeNumber").value = null;
     document.getElementById("operationOfRandomNumbers").innerHTML = "Operation";
     document.getElementById("resultNumber").value = null;
+    document.querySelector("#output").style.color = "black";
     timeFlow = 5;
     document.getElementById("output").innerHTML = `${timeFlow}`;
 }
