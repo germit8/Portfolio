@@ -39,7 +39,8 @@ def hangman():
         word_list.append(i)
         fake_word_list.append("*")
     time.sleep(1)
-    print(fake_word_list)
+    fake_word_string = "".join(fake_word_list)
+    print(fake_word_string)
 
     lives = 5
     guessed_letters = []
@@ -67,8 +68,9 @@ def hangman():
                     guessed_letters.pop()  # popping the letter, because i don't want it multiple times
                     print(guessed_letters_message, guessed_letters)
                 elif guess == word_list[i]:
-                    fake_word_list[i] = guess  # letter is correct and not guessed yet
-                    print(fake_word_list)
+                    fake_word_list[i] = guess # letter is correct and not guessed yet
+                    fake_word_string = "".join(fake_word_list)
+                    print(fake_word_string)
             print(progress_message)
 
         # you can input a whole word, checking if it is correct
