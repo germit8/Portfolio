@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Assesment Test Html</title>
+        <!--Úkol na Udemy na vytvoření stránky pro přihlášení na událost-->
+    </head>
+    <body>
+        <form action="formsQuestThankYou.html" action="get">
+            <h1>Course Sign Up Page</h1>
+            <p>Please note: First Name, Last Name, Email and Pasword are required</p><br>
+
+            <label for="firstname">First Name: </label>
+            <input type="text" name="userfirstname" id="firstname" placeholder="Jožka" required>
+
+            <label for="lastname">Last Name: </label>
+            <input type="text" name="userlastname" id="lastname" placeholder="Nožka" required><br><br>
+
+            <label for="email">Email: </label>
+            <input type="email" name="useremail" id="email" placeholder="name@email.com" required>
+ 
+            <label for="password">Password: </label>
+            <input type="password" name="userpassword" id="password" required><br>
+
+            <p>Are you over the age of 18?</p>
+
+            <label for="y">Yes: </label>
+            <input type="radio" name="ageOver18" id="y" value="yes">
+
+            <label for="n">No: </label>
+            <input type="radio" name="ageOver18" id="n" value="no">
+
+            <p>Do you have a Credit Card or PayPal?</p>
+
+            <select name="userpayment" id="">
+                <option value="PayPal">PayPal</option>
+                <option value="Credit_Card">Credit Card</option>
+                <option value="Null">Nothing</option>
+            </select><br><br>
+
+            <input type="submit" name="" value="Sign Up">
+        </form>
+    </body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Bootstrap buttons</title>
+    <link rel="stylesheet" type="text/css" href="bootstrap.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="main.js"></script>
+    <style>
+        .boxy {
+            background-color: lightblue;
+            border: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-default navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="#" class="navbar-brand">Company</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse">
+                        <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            
+            <ul class="navbar-nav">
+                <li><a href="#">Item one</a></li>
+                <li><a href="#">Item one</a></li>
+                <li><a href="#">Item one</a></li>
+            </ul>   
+
+            <ul class="navbar-nav navbar-right">
+                <li><a href="#">hjfd</a></li>
+                <li><a href="#">fdsdf</a></li>
+                <li><a href="#">lsajds</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="display-4">Hello, world!</h1>
+            <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+            <hr class="my-4">
+            <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h4>Flexbox Container</h4>
+        <div class="row">
+          <div class="col-lg boxy" >A Col-Large</div>
+          <div class="col-lg boxy" >B Col-Large</div>
+          <div class="col-lg boxy" >C Col-Large</div>
+        </div>
+        <div class="row">
+          <div class="col-md boxy" >A Col-Medium</div>
+          <div class="col-md boxy" >B Col-Medium</div>
+          <div class="col-md boxy" >C Col-Medium</div>
+        </div>
+        <div class="row">
+          <div class="col-sm boxy" >A Col-Small</div>
+          <div class="col-sm boxy" >B Col-Small</div>
+          <div class="col-sm boxy" >C Col-Small</div>
+        </div>
+      </div>
+
+    <div class="container">
+        <form>
+            <!--Nejdůležitější classy v bootstrapu pro forms jsou "form-group" a "form-control"-->
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                <small class="form-text text-muted">We will never share your personal information!</small>
+                
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>
+
+            <div class="form-group">
+                <label for="selectitem">Select item: </label>
+                <select multiple class="form-control" name="selectitem" id="selectitem">
+                    <option value="choice">1</option>
+                    <option value="choice">2</option>
+                    <option value="choice">3</option>
+                    <option value="choice">4</option>
+                    <option value="choice">5</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="userarea">Feedback here: </label>
+                <textarea class="form-control" name="userinput" id="userarea" cols="30" rows="10"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="userfile">Upload file: </label>
+                <input class="form-control-file" type="file" name="userfile" value="">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

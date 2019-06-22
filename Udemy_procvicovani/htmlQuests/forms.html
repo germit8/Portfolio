@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <title>Forms</title>
+    </head>
+
+    <body>
+        <h1>Email and password</h1>
+
+        <form action="https://www.facebook.com" action="get">
+            <input type="email" name="useremail" placeholder="Enter email">
+            <input type="password" name="userpassword" placeholder="Enter Password" required>
+            <input type="submit" name="" value="Submit">
+        </form>
+
+        <br>
+
+        <h2>Hotel Feedback</h2>
+        <h3>Are you from EU or outside of EU?</h3>
+        <form>
+            <!--Id se využívá pro label, javascript nebo CSS-->
+            <!--name propojíinputy spolu (2x radio), takže můžu vybrat pouze jeden-->
+            <label for="ineu">Inside EU: </label>
+            <input id="ineu" type="radio" name="loc" value="inside">
+
+            <label for="outeu">Outsude EU: </label>
+            <input id="outeu" type="radio" name="loc" value="outside">
+
+            <!--textarea na pokud se někdo chce rozepsat-->
+            <h3>Any other feedback?</h3>
+            <textarea name="mytextarea" rows="8" cols="80" placeholder="Write here"></textarea>
+
+            <!--value je hodnota která se mi ukáže na backendu, zatímco čísla se ukazjí pro uživatele-->
+            <!--submitem se name nastaví nějaké value-->
+            <!--Příklad: loc=inside&stars=Bad-->
+            <h3>How was your stay? 5 is the best, 1 is the worst.</h3>
+            <select name="stars">
+                <option value="Tremendous">5</option>
+                <option value="Great">4</option>
+                <option value="Good">3</option>
+                <option value="Bad">2</option>
+                <option value="Terrible">1</option>
+            </selct>
+
+            <input type="submit" value="Submit">
+        </form>
+    </body>
+
+</html>
