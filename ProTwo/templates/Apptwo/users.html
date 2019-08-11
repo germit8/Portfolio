@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Second page</title>
+    <link rel="stylesheet" href="{% static "css/style.css" %}"/>
+    <script src="main.js"></script>
+</head>
+<body>
+    <h1>List of all the users:</h1>
+
+    <div class="users">
+    {% if all_users %}
+    <ol>
+        {% for user in all_users %}
+        <li>User Info
+        <ul>
+            <li>First name: {{user.first_name}}</li>
+            <li>Second name: {{user.second_name}}</li>
+            <li>Email: {{user.email}}</li>
+        </ul>
+        </li>
+        {% endfor %}
+    </ol>
+    {% else %}
+    <p>No users to be found</p>
+    {% endif %}
+    </div>
+</body>
+</html>

@@ -1,6 +1,8 @@
 from django.urls import path
-from AppTwo import views
+from Apptwo import views
 
 urlpatterns = [
-    path('', views.help, name="help")
+    path("", views.index, name="index"),
+    path("users", views.users, name="users"),
+    path("form", views.form_view, name="form_view"),
 ]
