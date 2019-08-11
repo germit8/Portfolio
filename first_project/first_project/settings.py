@@ -28,7 +28,7 @@ SECRET_KEY = 'v9-f@2wk0pf7#n624ue2912m^=0vanqdjfyb*geimj@#ch*9jl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['germit8.pythonanywhere.com']
 
 
 # Application definition
