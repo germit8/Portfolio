@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<div class="container">
+    <h1>Information about your account</h1>
+    <h3>Your first name: {{ user.first_name }}</h3>
+    <h3>Your surname: {{ user.last_name }}</h3>
+    <h3>Your username: {{ user.username }}</h3>
+    <h3>Your email: {{ user.email }}</h3>
+    <a href="{% url 'accounts:accounts_update' slug=user.slug %}" class="btn btn-secondary">Update info</a>
+</div>
+{% endblock %}

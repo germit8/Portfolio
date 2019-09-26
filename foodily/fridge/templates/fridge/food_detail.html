@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<div class="container">
+    <h1>Your food</h1>
+    <h3>Type: {{ food.name }}</h3>
+    <h3>Quantity: {{ food.quantity }} </h3>
+    <form action="add_quantity/" method="POST">
+        {% csrf_token %}
+        <input type="number" name="amount"><br>
+        <input type="submit" value="Add" class="btn btn-primary">
+    </form><br>
+    <form action="subtract_quantity/" method="POST">
+        {% csrf_token %}
+        <input type="number" name="amount"><br>
+        <input type="submit" value="Subtract" class="btn btn-primary">
+    </form>
+    <h3>Description: {{ food.description }}</h3>
+    <h3>Expiration date: {{ food.expiration_date }}</h3>
+    <h3>Fridges which contain {{ food.name }}:
+        {% for fridge in food.in_fridges.all %}
+            {% if fridge.belongs_to.username == user.username %}
+                <ul>
+                    <a href="{% url 'fridge:fridge_detail' slug=fridge.slug %}"><li>{{ fridge.name }}</li></a>
+                </ul>
+                <br>
+            {% endif %}
+        {% endfor %}
+    </h3>
+</div>
+{% endblock %}

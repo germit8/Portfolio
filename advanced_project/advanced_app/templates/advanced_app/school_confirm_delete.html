@@ -1,0 +1,13 @@
+{% extends "advanced_app/advanced_app_base.html" %}
+<!--DeleteView uses template_name_suffix of '_confirm_delete'. For example, changing this attribute to '_check_delete' 
+for a view deleting objects for the example Author model would cause the default template_name to be 'myapp/author_check_delete.html'.-->
+{% block body_block %}
+
+<!--Místo school může být napsáno object-->
+<h1>Delete {{ school.name }}?</h1>
+<form method="POST">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-danger" value="Confirm deletion">
+    <a href="{% url 'advanced_app:school_detail' pk=school.pk %}">Cancel</a>
+</form>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<div class="container">
+    <h1>Recipes</h1>
+        {% for recipe in recipe_list %}
+            <h1>{{ recipe.name }}</h1>
+            <h2>{{ recipe.rating }}</h2>
+            <h2>Preparation time: {{ recipe.preparation_time }}</h2>
+            <h2>Servings: {{ recipe.servings }}</h2>
+            <h3>Ingredients:</h3>
+            <ul>
+                {% for ingred in recipe.ingredients.all %}
+                <li>{{ ingred }}</li>
+                {% endfor %}
+            </ul>
+            <h3>Instructions:</h3>
+            <p id="instructions-ending">{{ recipe.instructions }}</p>
+        {% endfor %}
+</div>
+{% endblock %}

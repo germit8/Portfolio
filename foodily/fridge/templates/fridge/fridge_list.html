@@ -1,0 +1,19 @@
+<!-- {% extends 'base.html' %}
+
+{% block body_block %}
+<div class="container">
+    <h1>My fridges</h1>
+        {% if fridge_list != None %}
+            <ol>
+                {% for fridge in fridge_list %}
+                    {% if fridge.belongs_to.username == user.username %}
+                        <h2><li>
+                            <a href="{% url 'fridge:fridge_detail' slug=fridge.slug %}">{{ fridge.name }}</a>
+                            <a href="{% url 'fridge:fridge_confirmation_delete' slug=fridge.slug %}" class="btn btn-danger">Delete</a>
+                        </h2></li>
+                    {% endif %}
+                {% endfor %}
+            </ol>
+        {% endif %}
+</div>
+{% endblock %} -->

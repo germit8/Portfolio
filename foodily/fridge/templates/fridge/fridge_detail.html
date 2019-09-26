@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<div class="container">
+    <h1>This is the information about your fridge</h1>
+    <h3>Name: {{ fridge.name }}</h3>
+    <h3>Owner: {{ fridge.belongs_to }}</h3>
+    <h3>Contents:
+            {% for food in fridge.food_contents.all %}
+            <ul>
+                <a href="{% url 'fridge:food_detail' slug=food.slug %}"><li>{{ food.name }}</li></a>
+                <a href="{% url 'fridge:food_confirmation_delete' slug=food.slug %}">Delete food</a>
+            </ul>
+            <br>
+            {% endfor %}
+    </h3>
+    <a href="{% url 'fridge:fridge_update' slug=fridge.slug %}" class="btn btn-primary">Update fridge</a>
+    <a href="{% url 'fridge:fridge_confirmation_delete' slug=fridge.slug %}" class="btn btn-danger">Delete fridge</a>
+</div>
+{% endblock %}

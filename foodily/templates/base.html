@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Foodily</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/master.css' %}">
+</head>
+<body>
+	<ul class="nav nav-pills nav-fill">
+			<li class="nav-item">
+				<a class="nav-link active" href="{% url 'home' %}" tabindex="-1">Home</a>
+			</li>
+		{% if user.is_authenticated %}
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'accounts:accounts_detail' slug=user.slug %}">My Profile</a>
+			</li>
+			{% if user.my_fridge.all.count == 0 %}
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'fridge:fridge_create' %}">Create New Fridge</a>
+			</li>
+			{% else %}
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'fridge:fridge_detail' slug=user.my_fridge.get.slug %}">My Fridge</a>
+			</li>
+			{% endif %}
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'recipes:recipes_list' %}">Recipes</a>
+			</li>
+			<li class="nav-item">
+				<form action="{% url 'recipes:recipes_filtered_list' %}" method="GET">
+					{% csrf_token %}
+					<input type="text" placeholder="Type recipe name" name="recipe_query">
+					<input type="submit" class="btn btn-primary" value="Search">
+				</form>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a>
+			</li>
+		{% else %}
+			<li class="nav-item">
+					<a class="nav-link" href="{% url 'accounts:signup' %}">Signup</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
+			</li>
+		{% endif %}
+			</ul>
+
+    {% block body_block %}
+	{% endblock %}
+
+</body>
+</html>
