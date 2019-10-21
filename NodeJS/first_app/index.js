@@ -1,41 +1,62 @@
 const http = require('http');
 const date = require('dateformat');
-const DNY_V_TYDNU = ["Neděle","Pondělí","Úterý","Středa","Čtvrtek","Pátek","Sobota"];
+const fs = require('fs');
+const url = require('url');
+const apiDenVTydnu = require('./apis/api-denvtydnu').apiDenVTydnu;
+const apiSvatky = require('./apis/api-svatky').apiSvatky;
+const apiChat = require('./apis/api-chat').apiChat;
 
 let citac = 0;
 
-http.createServer((req, res) => {
-    if (req.url == "/") {
-        citac++; //dtto citac=citac+1
+function processStaticFiles(res, fileName) {
+    fileName = fileName.substr(1)
+    let contentType = "text/html";
+    if (fileName.endsWith(".jpeg")) {
+        contentType = "image/jpeg"
     }
-    if (req.url == "/jinastranka") {
+    if (fs.existsSync(fileName)) {
+        fs.readFile(fileName, function(err, data) {
+            res.writeHead(200, {'Content-Type': contentType});
+            res.write(data);
+            res.end();
+        });
+    } else {
+        res.writeHead(404);
+        res.end();
+    }
+}
+http.createServer((req, res) => {
+    let q = url.parse(req.url, true);
+
+    if (q.pathname == "/") {
+        citac++; //dtto citac=citac+1
+        processStaticFiles(res, "/index.html")
+        return;
+    }
+    if (q.pathname == "/chat") {
+        processStaticFiles(res, "/chat.html")
+        return;
+    }
+
+    if (q.pathname.length - q.pathname.lastIndexOf(".") < 6) {
+        processStaticFiles(res, q.pathname)
+        return;
+    }
+
+    if (q.pathname == "/jinastranka") {
         res.writeHead(200, {"Content-type": "text/html"});
         res.end("<html lang='cs'><head><meta charset='UTF8'></head><body>blablabla</body></html>");
-    } else if (req.url == "/jsondemo") {
-        res.writeHead(200, {"Content-type": "application/json"});
-        let obj = {};
-        obj.jmeno = "Bob";
-        obj.prijmeni = "Bobíček";
-        obj.rokNarozeni = 2002;
-        res.end(JSON.stringify(obj));
-    } else if (req.url == "/jsoncitac") {
+    } else if (q.pathname == "/jsoncitac") {
         res.writeHead(200, {"Content-type": "application/json"});
         let obj = {};
         obj.pocetVolani = citac;
         res.end(JSON.stringify(obj));
-    } else if (req.url == "/denvtydnu") {
-        res.writeHead(200, {
-            "Content-type": "application/json",
-            "Access-Control-Allow-Origin":"*"
-        });
-        let d = new Date();
-        let obj = {};
-        obj.systDatum = d;
-        obj.denVTydnuCiselne = d.getDay(); //0...nedele, 1...pondeli,...
-        obj.datumCesky = date(d, "dd.mm.yyyy");
-        obj.casCesky = d.getHours() + "." + d.getMinutes() + "." + d.getSeconds();
-        obj.denVTydnuCesky = DNY_V_TYDNU[d.getDay()];
-        res.end(JSON.stringify(obj));
+    } else if (q.pathname == "/denvtydnu") {
+        apiDenVTydnu(req, res);
+    } else if (q.pathname == "/svatky") {
+        apiSvatky(req, res);
+    } else if (q.pathname.startsWith("/chat/")) {
+        apiChat(req, res)
     } else {
         res.writeHead(200, {"Content-type": "text/html"});
         res.end("<html lang='cs'><head><meta charset='UTF8'></head><body>Počet volání: " +citac + "</body></html>");

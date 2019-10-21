@@ -2,12 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Datumové pokusy</title>
-    <script src="htmlfunctions.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Index</title>
+    <script>
+        function nactiSvatek() {
+            document.getElementById("calendar").valueAsDate = new Date();
+            nactiSvatekZData();
+            fetch("http://localhost:8888/svatky").then(function(response) {
+            response.text().then(function(text) {
+            let obj = JSON.parse(text);
+            document.getElementById("svatekdnes").innerHTML = obj.dnesniSvatek;
+            document.getElementById("datum").innerHTML = obj.datumCesky;
+            document.getElementById("svatekzitra").innerHTML = obj.zitrejsiSvatek;
+            nactiDen();
+        });
+    });
+}
+        function nactiSvatekZData() {
+            let date = document.getElementById("calendar").valueAsDate;
+            fetch("http://localhost:8888/svatky?month=" + (date.getMonth() + 1) + "&day=" + date.getDate()).then(function(response) {
+            response.text().then(function(text) {
+            let obj = JSON.parse(text);
+            document.getElementById("svatek").innerHTML = obj.dnesniSvatek;
+        });
+    });
+}
+
+        function nactiDen() {
+            fetch("http://localhost:8888/denvtydnu").then(function(response) {
+            response.text().then(function(text) {
+            let obj = JSON.parse(text);
+            document.getElementById("denvtydnu").innerHTML = obj.denVTydnuCesky;
+        });
+    });
+}
+    </script>
 </head>
-<body onload="nactiDatum()">
-
-Dnes je <b id="den"></b> <b id="datum"></b>.
-
+<body onload="nactiSvatek()">
+    <h1>Aplikace</h1>
+    <input type="date" id="calendar" onchange="nactiSvatekZData()"> Má svátek <span id="svatek"></span><br><br>
+    Dnes je <b id="denvtydnu"></b>, <b id="datum"></b> a má svátek <b id="svatekdnes"></b><br>
+    Zítra má svátek <b id="svatekzitra"></b> <br>
+    <img src="ruze.jpeg" alt="Růže">
 </body>
 </html>

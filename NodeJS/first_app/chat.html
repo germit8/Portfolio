@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+    <script>
+        function getMessage() {
+            message = document.getElementById("textmessage").value;
+            fetch("http://localhost:8888/chat/add?msg=" + message).then(function(response) {
+            response.text().then(function(text) {
+            let obj = JSON.parse(text);
+        });
+    });
+}
+    
+    
+    
+    
+    </script>
+</head>
+<body>
+    <h1>Funguje to</h1>
+    <span style="border: 1px black solid; width: 600px; height: 400px"></span>
+    <input type="text" id="textmessage">
+    <button onclick="getMessage()">Send message</button>
+</body>
+</html>

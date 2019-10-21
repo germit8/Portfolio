@@ -9,6 +9,7 @@
   "author": "Kryštof Bezděk",
   "license": "ISC",
   "dependencies": {
-    "dateformat": "^3.0.3"
+    "dateformat": "^3.0.3",
+    "localtunnel": "^2.0.0"
   }
 }
