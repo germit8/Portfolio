@@ -5,6 +5,7 @@ const url = require('url');
 const apiDenVTydnu = require('./apis/api-denvtydnu').apiDenVTydnu;
 const apiSvatky = require('./apis/api-svatky').apiSvatky;
 const apiChat = require('./apis/api-chat').apiChat;
+const apiSocialPosts = require('./apis/api-socialposts').apiSocialPosts;
 
 let citac = 0;
 
@@ -37,6 +38,10 @@ http.createServer((req, res) => {
         processStaticFiles(res, "/chat.html")
         return;
     }
+    if (q.pathname == "/socialposts") {
+        processStaticFiles(res, "/socialposts.html")
+        return;
+    }
 
     if (q.pathname.length - q.pathname.lastIndexOf(".") < 6) {
         processStaticFiles(res, q.pathname)
@@ -55,8 +60,10 @@ http.createServer((req, res) => {
         apiDenVTydnu(req, res);
     } else if (q.pathname == "/svatky") {
         apiSvatky(req, res);
+    } else if (q.pathname == "/socialposts/api") {
+        apiSocialPosts(req, res);
     } else if (q.pathname.startsWith("/chat/")) {
-        apiChat(req, res)
+        apiChat(req, res);
     } else {
         res.writeHead(200, {"Content-type": "text/html"});
         res.end("<html lang='cs'><head><meta charset='UTF8'></head><body>Počet volání: " +citac + "</body></html>");
