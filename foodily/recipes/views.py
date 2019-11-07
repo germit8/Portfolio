@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from recipes import models
+from fridge.models import Fridge
 
 # Create your views here.
 class RecipesList(LoginRequiredMixin, generic.ListView):

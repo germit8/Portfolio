@@ -14,6 +14,7 @@
             <br>
             {% endfor %}
     </h3>
+    <a href="{% url 'recipes:recipes_fridge_list' %}" class="btn btn-dark">Generate available recipes</a>
     <a href="{% url 'fridge:fridge_update' slug=fridge.slug %}" class="btn btn-primary">Update fridge</a>
     <a href="{% url 'fridge:fridge_confirmation_delete' slug=fridge.slug %}" class="btn btn-danger">Delete fridge</a>
 </div>
