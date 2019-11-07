@@ -6,54 +6,56 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sociální statusy</title>
     <script>
+        let counter = 0;
         function getData() {
-                let author = document.getElementById("authorname").value;
-                let headline = document.getElementById("postname").value;
-                let content = document.getElementById("status").value;
-                fetch("http://localhost:8888/socialposts/api?author=" + author + "&headline=" + headline + "&content=" + content).then(function(response) {
-                response.text().then(function(text) {
-                let obj = JSON.parse(text);
-                
-                document.getElementById("authorlocation").innerHTML = "Text by: " + obj.author;
-                document.getElementById("headlinelocation").innerHTML = obj.headline;
-                document.getElementById("contentlocation").innerHTML = obj.content;
-                document.getElementById("datelocation").innerHTML = "Posted on: " + obj.date + ", " + obj.time;
-
+            let author = document.getElementById("authorname").value;
+            let headline = document.getElementById("postname").value;
+            let content = document.getElementById("status").value;
+            fetch("http://localhost:8888/socialposts/api?author=" + author + "&headline=" + headline + "&content=" + content).then(function(response) {
+            response.text().then(function(text) {
+            let obj = JSON.parse(text);
+            
+            // v divu "posts" vytvořím template, kam pak dávám data pro jednotlivé statusy
+            document.getElementById("posts").innerHTML += '<div class="singlepost"><span id="headlinelocation"></span><br><br><b><span id="authorlocation"></span></b><br><b><span id="datelocation"></span></b><br><br><br><span id="contentlocation"></span><br><br><br></div>';
+            // abych jich bylo víc a rozeznaly se od sebe, mění se jejich id podle counteru
+            document.getElementById("headlinelocation").id = "headlinelocation" + String(counter);
+            document.getElementById("authorlocation").id = "authorlocation" + String(counter);
+            document.getElementById("datelocation").id = "datelocation" + String(counter);
+            document.getElementById("contentlocation").id = "contentlocation" + String(counter);
+            // nastavím styl jednotlivému statusu, protože jak se mění id, nejde to dát jednotlivě do stylu (spíš nevím jak to udělat)
+            document.getElementById("authorlocation" + String(counter)).style = "border-bottom: 2px black solid;font-size: 20px;";
+            document.getElementById("headlinelocation" + String(counter)).style = "font-size: 100px;border-bottom: 10px red dotted;";
+            document.getElementById("datelocation" + String(counter)).style = "border-bottom: 1px black solid;font-size: 15px;";
+            // najdu id s counterem a přiřadím mu nový text
+            document.getElementById("authorlocation" + String(counter)).innerHTML = "Text by: " + obj.author;
+            document.getElementById("headlinelocation" + String(counter)).innerHTML = obj.headline;
+            document.getElementById("contentlocation" + String(counter)).innerHTML = obj.content;
+            document.getElementById("datelocation" + String(counter)).innerHTML = "Posted on: " + obj.date + ", " + obj.time;
+            // každé kliknutí na funkci inkrementuje counter, takže je možné mít mnonho statusů
+            counter++;
             });
         });
-    }
-    
-    
+    } 
     </script>
-    <style>
-    #headlinelocation {
-        font-size: 100px;
-        border-bottom: 10px red dotted;
-    }
-    #authorlocation {
-        border-bottom: 2px black solid;
-        font-size: 20px;
-    }
-    #datelocation {
-        border-bottom: 1px black solid;
-        font-size: 15px;
-    }
-    </style>
 </head>
 <body>
-    <h1>Napište svůj status</h1>
-    <h4>Jméno autora</h4>
-    <input type="text" id="authorname"><br>
-    <h4>Nadpis</h4>
-    <input type="text" id="postname"><br>
-    <h4>Obsah statusu</h4>
-    <textarea type="textarea" id="status"></textarea>
-    <button onclick="getData()">Post!</button>
-<div id="posts">
-    <span id="headlinelocation"></span><br><br>
-    <b><span id="authorlocation"></span></b><br>
-    <b><span id="datelocation"></span></b><br><br><br>
-    <span id="contentlocation"></span><br>
-</div>
+    <div id="postcreate">
+        <h1>Napište svůj status</h1>
+        <h4>Jméno autora</h4>
+        <input type="text" id="authorname"><br>
+        <h4>Nadpis</h4>
+        <input type="text" id="postname"><br>
+        <h4>Obsah statusu</h4>
+        <textarea type="textarea" id="status"></textarea>
+        <button onclick="getData()">Post!</button>
+    </div>
+
+    <div id="posts">
+        <!-- <span id="headlinelocation"></span><br><br>
+        <b><span id="authorlocation"></span></b><br>
+        <b><span id="datelocation"></span></b><br><br><br>
+        <span id="contentlocation"></span><br> -->
+    </div>
+
 </body>
 </html>
