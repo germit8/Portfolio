@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sociální statusy</title>
+    <script>
+        function getData() {
+                let author = document.getElementById("authorname").value;
+                let headline = document.getElementById("postname").value;
+                let content = document.getElementById("status").value;
+                fetch("http://localhost:8888/socialposts/api?author=" + author + "&headline=" + headline + "&content=" + content).then(function(response) {
+                response.text().then(function(text) {
+                let obj = JSON.parse(text);
+                
+                document.getElementById("authorlocation").innerHTML = "Text by: " + obj.author;
+                document.getElementById("headlinelocation").innerHTML = obj.headline;
+                document.getElementById("contentlocation").innerHTML = obj.content;
+                document.getElementById("datelocation").innerHTML = "Posted on: " + obj.date + ", " + obj.time;
+
+            });
+        });
+    }
+    
+    
+    </script>
+    <style>
+    #headlinelocation {
+        font-size: 100px;
+        border-bottom: 10px red dotted;
+    }
+    #authorlocation {
+        border-bottom: 2px black solid;
+        font-size: 20px;
+    }
+    #datelocation {
+        border-bottom: 1px black solid;
+        font-size: 15px;
+    }
+    </style>
+</head>
+<body>
+    <h1>Napište svůj status</h1>
+    <h4>Jméno autora</h4>
+    <input type="text" id="authorname"><br>
+    <h4>Nadpis</h4>
+    <input type="text" id="postname"><br>
+    <h4>Obsah statusu</h4>
+    <textarea type="textarea" id="status"></textarea>
+    <button onclick="getData()">Post!</button>
+<div id="posts">
+    <span id="headlinelocation"></span><br><br>
+    <b><span id="authorlocation"></span></b><br>
+    <b><span id="datelocation"></span></b><br><br><br>
+    <span id="contentlocation"></span><br>
+</div>
+</body>
+</html>
