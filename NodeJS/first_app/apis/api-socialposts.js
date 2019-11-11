@@ -15,5 +15,6 @@ exports.apiSocialPosts = function(req, res) {
     obj.author = q.query["author"]
     obj.headline = q.query["headline"]
     obj.content = q.query["content"]
+    obj.imageurl = q.query["imageurl"]
     res.end(JSON.stringify(obj));
 }
