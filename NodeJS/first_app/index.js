@@ -60,7 +60,7 @@ http.createServer((req, res) => {
         apiDenVTydnu(req, res);
     } else if (q.pathname == "/svatky") {
         apiSvatky(req, res);
-    } else if (q.pathname == "/socialposts/api") {
+    } else if (q.pathname.startsWith("/socialposts/")) {
         apiSocialPosts(req, res);
     } else if (q.pathname.startsWith("/chat/")) {
         apiChat(req, res);

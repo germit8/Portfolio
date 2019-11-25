@@ -12,57 +12,55 @@
             let headline = document.getElementById("postname").value;
             let content = document.getElementById("status").value;
             let imageurl = document.getElementById("imageurlname").value
-            console.log(imageurl)
-            fetch("http://localhost:8888/socialposts/api?author=" + author + "&headline=" + headline + "&content=" + content + "&imageurl=" + imageurl).then(function(response) {
+            fetch("http://localhost:8888/socialposts/addpost?author=" + author + "&headline=" + headline + "&content=" + content + "&imageurl=" + imageurl).then(function(response) {
             response.text().then(function(text) {
-            let obj = JSON.parse(text);
-            
-            // v divu "posts" vytvořím template, kam pak dávám data pro jednotlivé statusy
-            document.getElementById("posts").innerHTML += '<div id="singlepost"><span id="headlinelocation"></span><br><br><b><span id="authorlocation"></span></b><br><b><span id="datelocation"></span></b><br><br><br><span id="contentlocation"></span><br><img src="" alt="Nefunguje to" id="imagelocation"><br><button onclick="removePost(this)">Delete post!</button><br><br><br></div>';
-            // abych jich bylo víc a rozeznaly se od sebe, mění se jejich id podle counteru
-            document.getElementById("singlepost").id = "singlepost" + String(counter);
-            document.getElementById("headlinelocation").id = "headlinelocation" + String(counter);
-            document.getElementById("authorlocation").id = "authorlocation" + String(counter);
-            document.getElementById("datelocation").id = "datelocation" + String(counter);
-            document.getElementById("contentlocation").id = "contentlocation" + String(counter);
-            document.getElementById("imagelocation").id = "imagelocation" + String(counter);
-            // nastavím styl jednotlivému statusu, protože jak se mění id, nejde to dát jednotlivě do stylu (spíš nevím jak to udělat)
-            document.getElementById("authorlocation" + String(counter)).style = "border-bottom: 2px black solid;font-size: 20px;";
-            document.getElementById("headlinelocation" + String(counter)).style = "font-size: 100px;border-bottom: 10px red dotted;";
-            document.getElementById("datelocation" + String(counter)).style = "border-bottom: 1px black solid;font-size: 15px;";
-            // najdu id s counterem a přiřadím mu nový text
-            document.getElementById("authorlocation" + String(counter)).innerHTML = "Text by: " + obj.author;
-            document.getElementById("headlinelocation" + String(counter)).innerHTML = obj.headline;
-            document.getElementById("contentlocation" + String(counter)).innerHTML = obj.content;
-            document.getElementById("datelocation" + String(counter)).innerHTML = "Posted on: " + obj.date + ", " + obj.time;
-            document.getElementById("imagelocation" + String(counter)).src = obj.imageurl;
-            // každé kliknutí na funkci inkrementuje counter, takže je možné mít mnonho statusů
-            counter++;
             });
         });
     }
+        function postData() {
+            fetch("http://localhost:8888/socialposts/listposts").then(function(response) {
+            response.text().then(function(text) {
+                let obj = JSON.parse(text);
+                // v divu "posts" vytvořím template, kam pak dávám data pro jednotlivé statusy
+                for (let pst of obj.allPosts) {
+                    if (pst.imageurl == "") {
+                        document.getElementById("posts").innerHTML += '<div id="singlepost"><span id="headlinelocation"></span><br><br><b><span id="authorlocation"></span></b><br><b><span id="datelocation"></span></b><br><br><br><span id="contentlocation"></span><br><br><button onclick="removePost(this)">Delete post!</button><br><br><br></div>';
+                    } else {
+                        document.getElementById("posts").innerHTML += '<div id="singlepost"><span id="headlinelocation"></span><br><br><b><span id="authorlocation"></span></b><br><b><span id="datelocation"></span></b><br><br><br><span id="contentlocation"></span><br><img src="" alt="Nefunkční odkaz" id="imagelocation"><br><button onclick="removePost(this)">Delete post!</button><br><br><br></div>';
+                        document.getElementById("imagelocation").id = "imagelocation" + String(counter);
+                        document.getElementById("imagelocation" + String(counter)).src = pst.imageurl;
+                    }
+                    // abych jich bylo víc a rozeznaly se od sebe, mění se jejich id podle counteru
+                    document.getElementById("singlepost").id = "singlepost" + String(counter);
+                    document.getElementById("headlinelocation").id = "headlinelocation" + String(counter);
+                    document.getElementById("authorlocation").id = "authorlocation" + String(counter);
+                    document.getElementById("datelocation").id = "datelocation" + String(counter);
+                    document.getElementById("contentlocation").id = "contentlocation" + String(counter);
+                    // nastavím styl jednotlivému statusu, protože jak se mění id, nejde to dát jednotlivě do stylu (spíš nevím jak to udělat)
+                    document.getElementById("authorlocation" + String(counter)).style = "border-bottom: 2px black solid;font-size: 20px;";
+                    document.getElementById("headlinelocation" + String(counter)).style = "font-size: 100px;border-bottom: 10px red dotted;";
+                    document.getElementById("datelocation" + String(counter)).style = "border-bottom: 1px black solid;font-size: 15px;";
+                    // najdu id s counterem a přiřadím mu nový text
+                    document.getElementById("authorlocation" + String(counter)).innerHTML = "Text by: " + pst.author;
+                    document.getElementById("headlinelocation" + String(counter)).innerHTML = pst.headline;
+                    document.getElementById("contentlocation" + String(counter)).innerHTML = pst.content;
+                    document.getElementById("datelocation" + String(counter)).innerHTML = "Posted on: " + pst.date + ", " + pst.time;
+                    // každé kliknutí na funkci inkrementuje counter, takže je možné mít mnonho statusů
+                    counter++;  
+                    } 
+                });
+            });    
+        }
+        function refreshPosts() {
+            setInterval(postData, 1000);
+        }
         function removePost(token) {
             token.parentNode.remove(token.parentElement.id);
             return false
         }
-
-        // document.getElementById("image").addEventListener("change", function openAndImportFile() {
-        //     if (this.files.length === 0) {
-        //         alert("You have to choose a file")
-        //         return;
-        //     }
-
-        //     const reader = new FileReader();
-        //     reader.onload = function fileReadCompleted() {
-        //         const img = new Image();          // creates an <img> element
-        //         img.src = reader.result;          // loads the data URL as the image source
-        //         document.body.appendChild(img);   // adds the image to the body
-        //     };
-        //     reader.readAsDataURL(this.files[0]);
-        // })
     </script>
 </head>
-<body align="center">
+<body align="center" onload="refreshPosts()">
     <div id="postcreate">
         <h1>Napište svůj status</h1>
         <h4>Jméno autora</h4>
@@ -74,6 +72,7 @@
         <h4>Obsah statusu</h4>
         <textarea rows="15" cols="100" type="textarea" id="status"></textarea><br>
         <button onclick="getData()">Post!</button><br><br>
+        <a href="http://localhost:8888/socialposts/listposts">Seznam postů</a>
     </div>
 
     <div id="posts">
