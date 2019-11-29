@@ -14,6 +14,7 @@
             let imageurl = document.getElementById("imageurlname").value
             fetch("http://localhost:8888/socialposts/addpost?author=" + author + "&headline=" + headline + "&content=" + content + "&imageurl=" + imageurl).then(function(response) {
             response.text().then(function(text) {
+                // získám data z html a pošlu je do "posts" listu
             });
         });
     }
@@ -22,11 +23,12 @@
             response.text().then(function(text) {
                 let obj = JSON.parse(text);
                 // v divu "posts" vytvořím template, kam pak dávám data pro jednotlivé statusy
+                document.getElementById("posts").innerHTML = "";
                 for (let pst of obj.allPosts) {
                     if (pst.imageurl == "") {
                         document.getElementById("posts").innerHTML += '<div id="singlepost"><span id="headlinelocation"></span><br><br><b><span id="authorlocation"></span></b><br><b><span id="datelocation"></span></b><br><br><br><span id="contentlocation"></span><br><br><button onclick="removePost(this)">Delete post!</button><br><br><br></div>';
                     } else {
-                        document.getElementById("posts").innerHTML += '<div id="singlepost"><span id="headlinelocation"></span><br><br><b><span id="authorlocation"></span></b><br><b><span id="datelocation"></span></b><br><br><br><span id="contentlocation"></span><br><img src="" alt="Nefunkční odkaz" id="imagelocation"><br><button onclick="removePost(this)">Delete post!</button><br><br><br></div>';
+                        document.getElementById("posts").innerHTML += '<div id="singlepost"><span id="headlinelocation"></span><br><br><b><span id="authorlocation"></span></b><br><b><span id="datelocation"></span></b><br><br><br><span id="contentlocation"></span><br><img src="" alt="Nefunkční odkaz" id="imagelocation"><br><button onclick="removePost()">Delete post!</button><br><br><br></div>';
                         document.getElementById("imagelocation").id = "imagelocation" + String(counter);
                         document.getElementById("imagelocation" + String(counter)).src = pst.imageurl;
                     }
@@ -54,10 +56,15 @@
         function refreshPosts() {
             setInterval(postData, 1000);
         }
-        function removePost(token) {
-            token.parentNode.remove(token.parentElement.id);
-            return false
+        function removePost() {
+            fetch("http://localhost:8888/socialposts/deletepost").then(function(response) {
+                response.text().then(function(text) {
+                    let obj = JSON.parse(text);
+                    // odstraní se "this" post
+                });
+            });
         }
+
     </script>
 </head>
 <body align="center" onload="refreshPosts()">

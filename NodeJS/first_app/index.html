@@ -37,23 +37,7 @@
         });
     });
 }
-//     function getData() {
-//         let author = document.getElementById("authorname").value;
-//         let headline = document.getElementById("postname").value;
-//         let content = document.getElementById("status").value;
-//         fetch("http://localhost:8888/socialposts?author=" + author + "&headline=" + headline + "&content=" + content).then(function(response) {
-//         response.text().then(function(text) {
-//         let obj = JSON.parse(text);
-        
-//         document.getElementById("authorlocation").innerHTML = obj.author;
-//         document.getElementById("headlinelocation").innerHTML = obj.headline;
-//         document.getElementById("contentlocation").innerHTML = obj.content;
-//         document.getElementById("datelocation").innerHTML = obj.date;
-//         document.getElementById("timelocation").innerHTML = obj.time;
 
-//         });
-//     });
-// }
     </script>
 </head>
 <body onload="nactiSvatek()">
@@ -62,20 +46,7 @@
     Dnes je <b id="denvtydnu"></b>, <b id="datum"></b> a má svátek <b id="svatekdnes"></b><br>
     Zítra má svátek <b id="svatekzitra"></b> <br>
     <img src="ruze.jpeg" alt="Růže"><br><br>
+    <button><a href="http://localhost:8888/socialposts">Fake Facebook</a></button>
 
-    <!-- <h1>Napište svůj status</h1>
-    <h4>Jméno autora</h4>
-    <input type="text" id="authorname"><br>
-    <h4>Nadpis</h4>
-    <input type="text" id="postname"><br>
-    <h4>Obsah statusu</h4>
-    <textarea type="textarea" id="status"></textarea>
-    <button onclick="getData()">Post!</button>
-
-    <span id="authorlocation"></span>
-    <span id="headlinelocation"></span>
-    <span id="contentlocation"></span>
-    <span id="datelocation"></span>
-    <span id="timelocation"></span> -->
 </body>
 </html>

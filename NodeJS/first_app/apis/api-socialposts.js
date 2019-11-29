@@ -11,7 +11,6 @@ exports.apiSocialPosts = function(req, res) {
         });
         let obj = {};
         obj.allPosts = posts;
-        console.log(obj.allPosts);
         res.end(JSON.stringify(obj));
     } else if (q.pathname == "/socialposts/addpost") {
         res.writeHead(200, {
@@ -29,5 +28,14 @@ exports.apiSocialPosts = function(req, res) {
         obj.imageurl = q.query["imageurl"]
         posts.push(obj);
         res.end(JSON.stringify(obj));
-    } 
+    } else if (q.pathname == "/socialposts/deletepost") {
+        res.writeHead(200, {
+            "Content-type": "application/json",
+            "Access-Control-Allow-Origin":"*"
+        });
+        let obj = {};
+        obj.allPosts = posts;
+        obj.allPosts.splice(obj.allPosts.indexOf(this), 1);
+        res.end(JSON.stringify(obj));
+    }
 }
