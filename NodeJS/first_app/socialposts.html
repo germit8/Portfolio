@@ -35,9 +35,9 @@
                 document.getElementById("posts").innerHTML = "";
                 for (let pst of obj.allPosts) {
                     if (pst.imageurl == "") {
-                        document.getElementById("posts").innerHTML += '<div id="singlepost"><span id="headlinelocation"></span><br><br><b><span id="authorlocation"></span></b><br><b><span id="datelocation"></span></b><br><br><br><span id="contentlocation"></span><br><br><button onclick="removePost(this)">Delete post!</button><br><br><br></div>';
+                        document.getElementById("posts").innerHTML += '<div id="singlepost"><span id="headlinelocation"></span><br><br><span id="authorlocation"></span><br><b><span id="datelocation"></span></b><br><br><br><span id="contentlocation"></span><br><br><button onclick="removePost(this)">Delete post!</button><br><br><br></div>';
                     } else {
-                        document.getElementById("posts").innerHTML += '<div id="singlepost"><span id="headlinelocation"></span><br><br><b><span id="authorlocation"></span></b><br><b><span id="datelocation"></span></b><br><br><br><span id="contentlocation"></span><br><img src="" alt="Nefunkční odkaz" id="imagelocation"><br><button onclick="removePost()">Delete post!</button><br><br><br></div>';
+                        document.getElementById("posts").innerHTML += '<div id="singlepost"><span id="headlinelocation"></span><br><br><span id="authorlocation"></span><br><b><span id="datelocation"></span></b><br><br><br><span id="contentlocation"></span><br><img src="" alt="Nefunkční odkaz" id="imagelocation"><br><button onclick="removePost(this)">Delete post!</button><br><br><br></div>';
                         document.getElementById("imagelocation").id = "imagelocation" + String(counter);
                         document.getElementById("imagelocation" + String(counter)).src = pst.imageurl;
                     }
@@ -50,7 +50,7 @@
                     // nastavím styl jednotlivému statusu, protože jak se mění id, nejde to dát jednotlivě do stylu (spíš nevím jak to udělat)
                     document.getElementById("headlinelocation" + String(counter)).style = "font-size: 100px;border-bottom: 10px red dotted;";
                     // najdu id s counterem a přiřadím mu nový text
-                    document.getElementById("authorlocation" + String(counter)).innerHTML = "Text by: " + pst.author;
+                    document.getElementById("authorlocation" + String(counter)).innerHTML = pst.author;
                     document.getElementById("headlinelocation" + String(counter)).innerHTML = pst.headline;
                     document.getElementById("contentlocation" + String(counter)).innerHTML = pst.content;
                     document.getElementById("datelocation" + String(counter)).innerHTML = "Posted on: " + pst.date + ", " + pst.time;
@@ -63,11 +63,13 @@
         function refreshPosts() {
             setInterval(postData, 1000);
         }
-        function removePost() {
-            fetch("http://localhost:8888/socialposts/deletepost").then(function(response) {
+        function removePost(token) {
+            let elements = token.parentNode.childNodes;
+            let objectSlug = (((elements[3].innerHTML).replace(/\s+/g, '').toLowerCase())) + (((elements[0].innerHTML).replace(/\s+/g, '').toLowerCase()));
+            console.log(objectSlug);
+            fetch("http://localhost:8888/socialposts/deletepost?slug=" + objectSlug).then(function(response) {
                 response.text().then(function(text) {
-                    let obj = JSON.parse(text);
-                    // odstraní se "this" post
+                    // odstraní se post s unikátním slugem
                 });
             });
         }
@@ -102,6 +104,7 @@
                 <textarea class="form-control" id="status" rows="4"></textarea>
             </div>
             <button onclick="getData()" type="submit" class="btn btn-primary">Post!</button>
+            <a href="http://localhost:8888/socialposts/listposts">Seznam postů</a>
         </div>
     </form>
 

@@ -26,6 +26,7 @@ exports.apiSocialPosts = function(req, res) {
         obj.headline = q.query["headline"]
         obj.content = q.query["content"]
         obj.imageurl = q.query["imageurl"]
+        obj.slug = (obj.author.concat(obj.headline)).replace(/\s+/g, '').toLowerCase();
         posts.push(obj);
         res.end(JSON.stringify(obj));
     } else if (q.pathname == "/socialposts/deletepost") {
@@ -34,8 +35,13 @@ exports.apiSocialPosts = function(req, res) {
             "Access-Control-Allow-Origin":"*"
         });
         let obj = {};
+        let objSlug = q.query["slug"]
         obj.allPosts = posts;
-        obj.allPosts.splice(obj.allPosts.indexOf(this), 1);
+        for (let pst of obj.allPosts) {
+            if (pst.slug == objSlug) {
+                obj.allPosts.splice(obj.allPosts.indexOf(pst), 1);
+            }
+        }
         res.end(JSON.stringify(obj));
     }
 }
