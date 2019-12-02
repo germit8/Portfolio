@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "dateformat": "^3.0.3",
-    "localtunnel": "^2.0.0"
+    "localtunnel": "^2.0.0",
+    "sftp-upload": "^1.0.1"
   }
 }

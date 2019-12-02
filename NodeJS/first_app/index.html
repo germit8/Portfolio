@@ -6,22 +6,24 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Index</title>
     <script>
+        let HOST = window.location.protocol + "//" + window.location.hostname + ((window.location.port) ? ":" + window.location.port : "");
         function nactiSvatek() {
             document.getElementById("calendar").valueAsDate = new Date();
             nactiSvatekZData();
-            fetch("http://localhost:8888/svatky").then(function(response) {
+            fetch(HOST + "/svatky").then(function(response) {
             response.text().then(function(text) {
             let obj = JSON.parse(text);
             document.getElementById("svatekdnes").innerHTML = obj.dnesniSvatek;
             document.getElementById("datum").innerHTML = obj.datumCesky;
             document.getElementById("svatekzitra").innerHTML = obj.zitrejsiSvatek;
+            document.getElementById("fb").href = HOST + "/socialposts";
             nactiDen();
         });
     });
 }
         function nactiSvatekZData() {
             let date = document.getElementById("calendar").valueAsDate;
-            fetch("http://localhost:8888/svatky?month=" + (date.getMonth() + 1) + "&day=" + date.getDate()).then(function(response) {
+            fetch(HOST + "/svatky?month=" + (date.getMonth() + 1) + "&day=" + date.getDate()).then(function(response) {
             response.text().then(function(text) {
             let obj = JSON.parse(text);
             document.getElementById("svatek").innerHTML = obj.dnesniSvatek;
@@ -30,7 +32,7 @@
 }
 
         function nactiDen() {
-            fetch("http://localhost:8888/denvtydnu").then(function(response) {
+            fetch(HOST + "/denvtydnu").then(function(response) {
             response.text().then(function(text) {
             let obj = JSON.parse(text);
             document.getElementById("denvtydnu").innerHTML = obj.denVTydnuCesky;
@@ -46,7 +48,7 @@
     Dnes je <b id="denvtydnu"></b>, <b id="datum"></b> a má svátek <b id="svatekdnes"></b><br>
     Zítra má svátek <b id="svatekzitra"></b> <br>
     <img src="ruze.jpeg" alt="Růže"><br><br>
-    <button><a href="http://localhost:8888/socialposts">Fake Facebook</a></button>
+    <button><a id="fb" href="">Fake Facebook</a></button>
 
 </body>
 </html>

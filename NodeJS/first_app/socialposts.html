@@ -14,20 +14,21 @@
         }
     </style>
     <script>
+        let HOST = window.location.protocol + "//" + window.location.hostname + ((window.location.port) ? ":" + window.location.port : "");
         let counter = 0;
         function getData() {
             let author = document.getElementById("authorname").value;
             let headline = document.getElementById("postname").value;
             let content = document.getElementById("status").value;
             let imageurl = document.getElementById("imageurlname").value
-            fetch("http://localhost:8888/socialposts/addpost?author=" + author + "&headline=" + headline + "&content=" + content + "&imageurl=" + imageurl).then(function(response) {
+            fetch(HOST + "/socialposts/addpost?author=" + author + "&headline=" + headline + "&content=" + content + "&imageurl=" + imageurl).then(function(response) {
             response.text().then(function(text) {
                 // získám data z html a pošlu je do "posts" listu
             });
         });
     }
         function postData() {
-            fetch("http://localhost:8888/socialposts/listposts").then(function(response) {
+            fetch(HOST + "/socialposts/listposts").then(function(response) {
             response.text().then(function(text) {
                 let obj = JSON.parse(text);
                 // v divu "posts" vytvořím template, kam pak dávám data pro jednotlivé statusy
@@ -63,11 +64,11 @@
             });    
         }
         function refreshPosts() {
-            setInterval(postData, 1000);
+            setInterval(postData, 500);
         }
         function removePost(postButton) {
             let postSlug = postButton.getAttribute("data-slug");
-            fetch("http://localhost:8888/socialposts/deletepost?slug=" + postSlug).then(function(response) {
+            fetch(HOST + "/socialposts/deletepost?slug=" + postSlug).then(function(response) {
                 response.text().then(function(text) {
                     // odstraní se post s unikátním slugem
                 });
