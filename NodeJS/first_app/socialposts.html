@@ -28,7 +28,10 @@
         });
     }
         function postData() {
-            fetch(HOST + "/socialposts/listposts").then(function(response) {
+            let postPosts = document.getElementById("posts").innerHTML;
+            let body = {"posts": postPosts};
+            let opt = {"method":"POST", "body":JSON.stringify(body)}
+            fetch(HOST + "/socialposts/listposts", opt).then(function(response) {
             response.text().then(function(text) {
                 let obj = JSON.parse(text);
                 // v divu "posts" vytvořím template, kam pak dávám data pro jednotlivé statusy
@@ -75,6 +78,39 @@
             });
         }
 
+        function register() {
+            let authorName = document.getElementById("authorname").value;
+            let email = document.getElementById("useremail").value;
+            let password = document.getElementById("password1").value;
+            fetch(HOST + "/socialposts/register?authorname=" + authorName + "&password=" + password1 + "&email=" + email).then(function(response) {
+            response.text().then(function(text) {
+
+                });
+            });
+            alert("Zaregistrovali jste se úspěšně!")
+        }
+
+        function login() {
+            let authorName = document.getElementById("authorusername").value;
+            let password = document.getElementById("userpassword").value;
+            fetch(HOST + "/socialposts/login?authorusername=" + authorName + "&userpassword=" + password).then(function(response) {
+            response.text().then(function(text) {
+
+                });
+            });
+            alert("Přihlášení úspěšné")
+        }
+
+        function goToRegister() {
+            document.getElementById("login").style.display = "none";
+            document.getElementById("registrace").style.display = "";
+        }
+
+        function goToLogin() {
+            document.getElementById("login").style.display = "";
+            document.getElementById("registrace").style.display = "none";
+        }
+
     </script>
 </head>
 <body onload="refreshPosts()">
@@ -83,15 +119,47 @@
         <p class="lead">Tohle je má jednoduchá kopie facebooku. Zde můžete postovat své statusy.</p>
         <hr class="my-4">
         <p>Stačí napsat své jméno, nadpis a obsah vašeho statusu. Jestli chcete, můžete i vložit odkaz na obrázek.</p>
-    </div>
-    <form>
-        <div align="center" id="postcreate">
-            <h1>Napište svůj status</h1>
+        <div id="registrace" style="display: 'none';">
+            <h3>Registrace</h3>
             <div class="form-group">
                 <label for="authorname">Jméno autora</label>
                 <input type="text" class="form-control" id="authorname" aria-describedby="autorhelp">
                 <small id="autorhelp" class="form-text text-muted">Zde napište své jméno</small>
             </div>
+            <div class="form-group">
+                <label for="useremail">Email</label>
+                <input type="email" class="form-control" id="useremail">
+            </div>
+            <div class="form-group">
+                <label for="password1">Heslo</label>
+                <input type="password" class="form-control" id="password1">
+            </div>
+            <button onclick="register()" type="submit" class="btn btn-primary">Register</button>
+            <button onclick="goToLogin()" class="btn btn-primary">Go to Login</button>
+        </div>
+        <div id="login">
+            <h3>Login</h3>
+            <div class="form-group">
+                <label for="authorusername">Jméno</label>
+                <input type="text" class="form-control" id="authorusername" aria-describedby="autorhelp">
+                <small id="autorhelp" class="form-text text-muted">Zde napište své jméno</small>
+            </div>
+            <div class="form-group">
+                <label for="userpassword">Heslo</label>
+                <input type="password" class="form-control" id="userpassword">
+            </div>
+            <button onclick="login()" type="submit" class="btn btn-primary">Login</button>
+            <button onclick="goToRegister()" class="btn btn-primary">Go to Register</button>
+        </div>
+    </div>
+    <form>
+        <div align="center" id="postcreate">
+            <h1>Napište svůj status</h1>
+            <!-- <div class="form-group">
+                <label for="authorname">Jméno autora</label>
+                <input type="text" class="form-control" id="authorname" aria-describedby="autorhelp">
+                <small id="autorhelp" class="form-text text-muted">Zde napište své jméno</small>
+            </div> -->
             <div class="form-group">
                 <label for="postname">Nadpis</label>
                 <input type="text" class="form-control" id="postname">

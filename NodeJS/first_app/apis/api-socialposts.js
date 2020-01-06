@@ -3,6 +3,8 @@ const url = require('url');
 const Entities = require('html-entities').AllHtmlEntities;
 const entities = new Entities();
 
+let currentUser = "";
+let authors = new Array();
 let posts = new Array();
 exports.apiSocialPosts = function(req, res) {
     let q = url.parse(req.url, true);
@@ -22,7 +24,7 @@ exports.apiSocialPosts = function(req, res) {
     
         obj.date = date(d, "dd.mm.yyyy");
         obj.time = d.getHours() + "." + d.getMinutes() + "." + d.getSeconds();
-        obj.author = entities.encode(q.query["author"])
+        obj.author = entities.encode(currentUser)
         obj.headline = entities.encode(q.query["headline"])
         obj.content = entities.encode(q.query["content"])
         obj.imageurl = entities.encode(q.query["imageurl"])
@@ -33,7 +35,7 @@ exports.apiSocialPosts = function(req, res) {
             }
         }
         posts.push(obj);
-        res.end(JSON.stringify(obj));
+        res.end(JSON.stringify(obj));             
     } else if (q.pathname == "/socialposts/deletepost") {
         res.writeHead(200, {
             "Content-type": "application/json"
@@ -47,6 +49,26 @@ exports.apiSocialPosts = function(req, res) {
             }
         }
         res.end(JSON.stringify(obj));
+    } else if (q.pathname == "/socialposts/register") {
+        res.writeHead(200, {
+            "Content-type": "application/json"
+        });
+        let user = {}
+        user.authorname = q.query["authorname"];
+        user.password = q.query["password"];
+        user.email = q.query["email"];
+        authors.push(user);
+    } else if (q.pathname == "/socialposts/login") {
+        res.writeHead(200, {
+            "Content-type": "application/json"
+        });
+        let loginName = q.query["authorusername"]
+        let loginPassword = q.query["userpassword"]
+        if (loginName == authors["authorname"]) {
+            if (loginPassword == authors["passoword"]) {
+                currentUser = loginName;
+            }
+        }
     }
 }
 
