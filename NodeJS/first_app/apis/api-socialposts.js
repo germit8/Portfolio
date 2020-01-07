@@ -62,13 +62,25 @@ exports.apiSocialPosts = function(req, res) {
         res.writeHead(200, {
             "Content-type": "application/json"
         });
-        let loginName = q.query["authorusername"]
-        let loginPassword = q.query["userpassword"]
-        if (loginName == authors["authorname"]) {
-            if (loginPassword == authors["passoword"]) {
-                currentUser = loginName;
+        let userObj = {};
+        userObj.loginName = q.query["authorusername"];
+        userObj.loginPassword = q.query["userpassword"];
+        for (let user in authors) {
+            if (userObj.loginName == user["authors"]) {
+                if (userObj.loginPassword == user["password"]) {
+                    currentUser = userObj.loginName;
+                    alert("Přihlášení úspěšné");
+                }
             }
         }
+        res.end(JSON.stringify(userObj)); 
+    } else if (q.pathname == "/socialposts/users") {
+        res.writeHead(200, {
+            "Content-type": "application/json"
+        });
+        let obj = {};
+        obj.allUsers = authors;
+        res.end(JSON.stringify(obj));
     }
 }
 
