@@ -2,10 +2,30 @@ const date = require('dateformat');
 const url = require('url');
 const Entities = require('html-entities').AllHtmlEntities;
 const entities = new Entities();
+let fs = require('fs');
+let crypto = require('crypto');
 
-let currentUser = "";
+let currentUser;
 let authors = new Array();
 let posts = new Array();
+
+function passwordHash(word) {
+    let mixPassword = crypto.createHash('md5').update(word).digest('hex');
+    return mixPassword;
+}
+
+function genRandomNumber(digits) {
+    let finalNumber = "";
+    let numbers = "0123456789";
+    for (let i = 0; i < digits + 1; i++) {
+        finalNumber += numbers[Math.floor(Math.random()) * (numbers.length - 1)]
+    }
+    return finalNumber;
+}
+
+if (fs.existsSync('users.json')) {
+    authors = JSON.parse(fs.readFileSync("users.json"));
+}
 exports.apiSocialPosts = function(req, res) {
     let q = url.parse(req.url, true);
     if (q.pathname == "/socialposts/listposts") {
@@ -53,42 +73,37 @@ exports.apiSocialPosts = function(req, res) {
         res.writeHead(200, {
             "Content-type": "application/json"
         });
-        let user = {}
+        let user = {};
         user.authorname = q.query["authorname"];
-        user.password = q.query["password"];
-        user.email = q.query["email"];
-        authors.push(user);
+        let userExists = false;
+        for (let usr of authors) {
+            if (usr.authorname === user.authorname) {
+                userExists = true;
+                break;
+            }
+        }
+
+        if (userExists) {
+            user.error = "User already exists";
+        } else {
+            user.password = passwordHash(q.query["password"]);
+            user.email = q.query["email"];
+            authors.push(user);
+            fs.writeFileSync('users.json', JSON.stringify(authors, null, 2));
+        }
     } else if (q.pathname == "/socialposts/login") {
         res.writeHead(200, {
             "Content-type": "application/json"
         });
         let userObj = {};
         userObj.loginName = q.query["authorusername"];
-        userObj.loginPassword = q.query["userpassword"];
-        for (let user in authors) {
-            if (userObj.loginName == user["authors"]) {
-                if (userObj.loginPassword == user["password"]) {
-                    currentUser = userObj.loginName;
-                    alert("Přihlášení úspěšné");
-                }
+        userObj.loginPassword = passwordHash(q.query["userpassword"]);
+        for (let usr of authors) {
+            if (usr.authorname == userObj.loginName) {
+                currentUser = userObj.loginName;
+                break;
             }
+        res.end(JSON.stringify(userObj));
         }
-        res.end(JSON.stringify(userObj)); 
-    } else if (q.pathname == "/socialposts/users") {
-        res.writeHead(200, {
-            "Content-type": "application/json"
-        });
-        let obj = {};
-        obj.allUsers = authors;
-        res.end(JSON.stringify(obj));
     }
-}
-
-function genRandomNumber(digits) {
-    let finalNumber = "";
-    let numbers = "0123456789";
-    for (let i = 0; i < digits + 1; i++) {
-        finalNumber += numbers[Math.floor(Math.random()) * (numbers.length - 1)]
-    }
-    return finalNumber;
 }

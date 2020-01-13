@@ -82,23 +82,22 @@
             let authorName = document.getElementById("authorname").value;
             let email = document.getElementById("useremail").value;
             let password = document.getElementById("password1").value;
-            fetch(HOST + "/socialposts/register?authorname=" + authorName + "&password=" + password1 + "&email=" + email).then(function(response) {
-            response.text().then(function(text) {
-
-                });
-            });
-            alert("Zaregistrovali jste se úspěšně!")
-        }
-
-        function login() {
-            let authorName = document.getElementById("authorusername").value;
-            let password = document.getElementById("userpassword").value;
-            fetch(HOST + "/socialposts/login?authorusername=" + authorName + "&userpassword=" + password).then(function(response) {
+            fetch(HOST + "/socialposts/register?authorname=" + authorName + "&password=" + password + "&email=" + email).then(function(response) {
             response.text().then(function(text) {
 
                 });
             });
         }
+
+        // function login() {
+        //     let authorName = document.getElementById("authorusername").value;
+        //     let password = document.getElementById("userpassword").value;
+        //     fetch(HOST + "/socialposts/login?authorusername=" + authorName + "&userpassword=" + password).then(function(response) {
+        //     response.text().then(function(text) {
+
+        //         });
+        //     });
+        // }
 
         function goToRegister() {
             document.getElementById("login").style.display = "none";
@@ -170,7 +169,7 @@
                 <textarea class="form-control" id="status" rows="4"></textarea>
             </div>
             <button onclick="getData()" type="submit" class="btn btn-primary">Post!</button>
-            <a href="http://localhost:8888/socialposts/listposts">Seznam postů</a>
+            <a href="http://localhost:8080/socialposts/listposts">Seznam postů</a>
         </div>
     </form>
 
