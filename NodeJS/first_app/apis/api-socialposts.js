@@ -27,15 +27,14 @@ if (fs.existsSync('users.json')) {
     authors = JSON.parse(fs.readFileSync("users.json"));
 }
 exports.apiSocialPosts = function(req, res) {
-    let q = url.parse(req.url, true);
-    if (q.pathname == "/socialposts/listposts") {
+    if (req.pathname == "/socialposts/listposts") {
         res.writeHead(200, {
             "Content-type": "application/json"
         });
         let obj = {};
         obj.allPosts = posts;
         res.end(JSON.stringify(obj));
-    } else if (q.pathname == "/socialposts/addpost") {
+    } else if (req.pathname == "/socialposts/addpost") {
         res.writeHead(200, {
             "Content-type": "application/json"
         });
@@ -44,10 +43,10 @@ exports.apiSocialPosts = function(req, res) {
     
         obj.date = date(d, "dd.mm.yyyy");
         obj.time = d.getHours() + "." + d.getMinutes() + "." + d.getSeconds();
-        obj.author = entities.encode(currentUser)
-        obj.headline = entities.encode(q.query["headline"])
-        obj.content = entities.encode(q.query["content"])
-        obj.imageurl = entities.encode(q.query["imageurl"])
+        obj.author = currentUser
+        obj.headline = req.parameters.headline;
+        obj.content = req.parameters.content;
+        obj.imageurl = req.parameters.imageurl;
         obj.slug = ((obj.author.concat(obj.headline)).replace(/\s+/g, '').toLowerCase()).substring(0, 10);
         for (pst of posts) {
             if (obj.slug == pst.slug) {
@@ -56,12 +55,12 @@ exports.apiSocialPosts = function(req, res) {
         }
         posts.push(obj);
         res.end(JSON.stringify(obj));             
-    } else if (q.pathname == "/socialposts/deletepost") {
+    } else if (req.pathname == "/socialposts/deletepost") {
         res.writeHead(200, {
             "Content-type": "application/json"
         });
         let obj = {};
-        let objSlug = q.query["slug"]
+        let objSlug = req.parameters.slug;
         obj.allPosts = posts;
         for (let pst of obj.allPosts) {
             if (pst.slug == objSlug) {
@@ -69,12 +68,12 @@ exports.apiSocialPosts = function(req, res) {
             }
         }
         res.end(JSON.stringify(obj));
-    } else if (q.pathname == "/socialposts/register") {
+    } else if (req.pathname == "/socialposts/register") {
         res.writeHead(200, {
             "Content-type": "application/json"
         });
         let user = {};
-        user.authorname = q.query["authorname"];
+        user.authorname = req.parameters.authorname;
         let userExists = false;
         for (let usr of authors) {
             if (usr.authorname === user.authorname) {
@@ -91,15 +90,15 @@ exports.apiSocialPosts = function(req, res) {
             authors.push(user);
             fs.writeFileSync('users.json', JSON.stringify(authors, null, 2));
         }
-    } else if (q.pathname == "/socialposts/login") {
+    } else if (req.pathname == "/socialposts/login") {
         res.writeHead(200, {
             "Content-type": "application/json"
         });
         let userObj = {};
-        userObj.loginName = q.query["authorusername"];
-        userObj.loginPassword = passwordHash(q.query["userpassword"]);
+        userObj.loginName = req.parameters.authorusername;
+        userObj.loginPassword = passwordHash(req.parameters.userpassword);
         for (let usr of authors) {
-            if (usr.authorname == userObj.loginName) {
+            if (usr.authorname === userObj.loginName) {
                 currentUser = userObj.loginName;
                 break;
             }

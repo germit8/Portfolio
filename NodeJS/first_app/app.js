@@ -4,68 +4,59 @@ const fs = require('fs');
 const url = require('url');
 const apiDenVTydnu = require('./apis/api-denvtydnu').apiDenVTydnu;
 const apiSvatky = require('./apis/api-svatky').apiSvatky;
-const apiChat = require('./apis/api-chat').apiChat;
 const apiSocialPosts = require('./apis/api-socialposts').apiSocialPosts;
+const createSpaServer = require('spaserver').createSpaServer;
 
+const PORT = 8080;
 let citac = 0;
 
-function processStaticFiles(res, fileName) {
-    fileName = fileName.substr(1)
-    let contentType = "text/html";
-    if (fileName.endsWith(".jpeg")) {
-        contentType = "image/jpeg"
+const fileRequested = function(req, res) {
+    let q = url.parse(req.url, false);
+    let fileName = q.pathname;
+    if (fileName == "/") {
+        fileName = "/index.html";
     }
-    if (fs.existsSync(fileName)) {
-        fs.readFile(fileName, function(err, data) {
-            res.writeHead(200, {'Content-Type': contentType});
-            res.write(data);
-            res.end();
-        });
-    } else {
+    if (fileName.lastIndexOf(".") < 0 || fileName.lastIndexOf(".") < fileName.length - 6) { //pozadavek nema priponu souboru
+        return false;
+    }
+    if (fileName.charAt(0) === '/') {
+        fileName = fileName.substr(1);
+    }
+    if (!fs.existsSync(fileName)) {
+        console.error(`File ${fileName} not exists.`);
         res.writeHead(404);
         res.end();
+        return true;
     }
 }
-http.createServer((req, res) => {
-    let q = url.parse(req.url, true);
+function processApi(req, res) {
 
-    if (q.pathname == "/") {
-        citac++; //dtto citac=citac+1
-        processStaticFiles(res, "/index.html")
-        return;
-    }
-    if (q.pathname == "/chat") {
-        processStaticFiles(res, "/chat.html")
-        return;
-    }
-    if (q.pathname == "/socialposts") {
-        processStaticFiles(res, "/socialposts.html")
+    if (req.pathname == "/socialposts") {
+        res.writeHead(302, {
+            'Location': '/socialposts.html'
+        });
+        res.end();
         return;
     }
 
-    if (q.pathname.length - q.pathname.lastIndexOf(".") < 6) {
-        processStaticFiles(res, q.pathname)
-        return;
-    }
-
-    if (q.pathname == "/jinastranka") {
+    if (req.pathname == "/jinastranka") {
         res.writeHead(200, {"Content-type": "text/html"});
         res.end("<html lang='cs'><head><meta charset='UTF8'></head><body>blablabla</body></html>");
-    } else if (q.pathname == "/jsoncitac") {
+    } else if (req.pathname == "/jsoncitac") {
         res.writeHead(200, {"Content-type": "application/json"});
         let obj = {};
         obj.pocetVolani = citac;
         res.end(JSON.stringify(obj));
-    } else if (q.pathname == "/denvtydnu") {
+    } else if (req.pathname == "/denvtydnu") {
         apiDenVTydnu(req, res);
-    } else if (q.pathname == "/svatky") {
+    } else if (req.pathname == "/svatky") {
         apiSvatky(req, res);
-    } else if (q.pathname.startsWith("/socialposts/")) {
+    } else if (req.pathname.startsWith("/socialposts/")) {
         apiSocialPosts(req, res);
-    } else if (q.pathname.startsWith("/chat/")) {
-        apiChat(req, res);
     } else {
         res.writeHead(200, {"Content-type": "text/html"});
         res.end("<html lang='cs'><head><meta charset='UTF8'></head><body>Počet volání: " +citac + "</body></html>");
     }
-}).listen(8080);
+}
+
+createSpaServer(PORT, processApi);

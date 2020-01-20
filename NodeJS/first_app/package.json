@@ -12,6 +12,7 @@
     "dateformat": "^3.0.3",
     "html-entities": "^1.2.1",
     "localtunnel": "^2.0.0",
-    "sftp-upload": "^1.0.1"
+    "sftp-upload": "^1.0.1",
+    "spaserver": "git+https://github.com/liborsvejda/spaserver.git"
   }
 }
