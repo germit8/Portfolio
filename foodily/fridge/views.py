@@ -7,7 +7,6 @@ from fridge import forms
 from fridge import models
 from django.urls import reverse_lazy
 from recipes.models import Recipe
-# Create your views here.
 
 # FRDIGE VIEWS
 class FridgeCreate(LoginRequiredMixin, generic.CreateView):

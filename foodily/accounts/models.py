@@ -2,7 +2,6 @@ from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
-# Create your models here.
 
 # Vytvoření custom modelu pro uživatele
 class CustomUser(AbstractUser):
