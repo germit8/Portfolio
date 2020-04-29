@@ -38,7 +38,7 @@ def play_music(name):
 
 # funkce na vytvoření překážek na uhýbání
 def obstacle(obstx, obsty):
-        window.blit(obstImg, (obstx, obsty))
+    window.blit(obstImg, (obstx, obsty))
 
 
 # funkce, která dokola "přeplácává" auto na vytvořenou plochu funkcí blit
