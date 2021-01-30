@@ -1,5 +1,8 @@
 --import Test.QuickCheck
 
+squares :: [Int] -> [Int]
+squares xs = [ x^2 | x <- xs, x `mod` 2 == 0]
+
 square :: Integer -> Integer
 square x = x * x
 
