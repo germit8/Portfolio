@@ -1,0 +1,92 @@
+body {
+	font-family: cursive;
+	background-color: black;
+	color: white;
+	text-align: center;
+}
+em {
+	color: red;
+}
+strong {
+	color: red;
+}
+h1 {
+	background-color: lightpink;
+	color: black;
+	border: 3px solid red;
+}
+input {
+	display: inline;
+}
+.info {
+	display: grid;
+	text-align: center;
+	background-color: #808080;
+}
+#button {
+	color: red;
+}
+.container {
+	display: grid;
+	position: relative;
+	grid-gap: 10px;
+	border: 3px solid #ffff00;
+	grid-template-areas: "sideA numberA"
+						"sideB numberB"
+						"sideC numberC"
+						"angleAlfa numberAlfa"
+						"angleGamma numberGamma";
+	grid-template-columns: 300px;
+	grid-template-rows: 60px;
+	align-content: center;
+	justify-content: stretch;
+	z-index: 5;
+}
+.sideA {
+	background-color: #ff80c0;
+	grid-area: sideA;
+}
+.sideB {
+	background-color: #ff80c0;
+	grid-area: sideB;
+}
+.sideC {
+	background-color: #8000ff;
+	grid-area: sideC;
+}
+.numberA {
+	background-color: #80ffff;
+	grid-area: numberA;
+}
+.numberB {
+	background-color: #80ffff;
+	grid-area: numberB;
+}
+.numberC {
+	background-color: #80ffff;
+	grid-area: numberC;
+}
+.angleAlfa {
+	background-color: #ff8040;
+	grid-area: angleAlfa;
+}
+.angleBeta {
+	background-color: #ff8040;
+	grid-area: angleBeta;
+}
+.angleGamma {
+	background-color: #ff8040;
+	grid-area: angleGamma;
+}
+.numberAlfa {
+	background-color: #008040;
+	grid-area: numberAlfa;
+}
+.numberBeta {
+	background-color: #008040;
+	grid-area: numberBeta;
+}
+.numberGamma {
+	background-color: #008040;
+	grid-area: numberGamma;
+}

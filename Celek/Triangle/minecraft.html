@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My Web Page</title>
+	<meta charset="UTF-8">
+	<link href="barvy.css" type="text/css" rel="stylesheet">
+	<script src="funkce.js"></script>
+</head>
+<body>
+	<div id="intro">
+		<h1>Welcome To Minecraft</h1>
+		<h3>It's me, it's ya boy!</h3>
+		<p><strong>Welcome</strong> to my page guys, <em>today</em> we are going to play minecraft<br>Episode number 1</p>
+		<image src="https://vignette.wikia.nocookie.net/game-nation/images/7/75/Minecraft.png/revision/latest?cb=20171103174411" width="400" height="400" title="Minecraft block"></image>
+		<h2>Help Steve calculate side C in the triangle!</h2>
+		<div class="info">
+			<a>Input Alfa 90 and values for A and B if you want to calculate C in a right angled triangle</a>
+			<a>Input values for Gamma, A and Alfa if you want to calculate C in a different triangle</a>
+			<input id="button" type="button" onclick="calculateCIfRightAngle()" value="Do Stuff!"/>
+		</div>	
+	</div>
+	
+	<div class="container">
+	
+		<section class="sideA">
+			<h3>Side <em>a</em></h3>
+		</section>
+		
+		<section class="sideB">
+			<h3>Side <em>b</em></h3>
+		</section>
+		
+		<section class="sideC">
+			<h3>Side <em>c</em></h3>
+		</section>
+		
+		<section class="angleAlfa">
+			<h3>Angle <em>alfa</em></h3>
+		</section>
+		
+		<section class="angleGamma">
+			<h3>Angle <em>gamma</em></h3>
+		</section>
+		
+		<section class="numberA">
+			<input type="number" id="numA"/>
+		</section>
+		
+		<section class="numberB">
+			<input type="number" id="numB"/>
+		</section>
+		
+		<section class="numberAlfa">
+			<input type="number" id="numAlfa"/>
+		</section>
+		
+		<section class="numberGamma">
+			<input type="number" id="numGamma"/>
+		</section>
+		
+		<section class="numberC">
+			<input type="text" id="resultC" readonly="readonly"/>
+		</section>
+		
+	</div>
+	
+</body>
+</html>

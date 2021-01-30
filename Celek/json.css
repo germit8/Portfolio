@@ -1,0 +1,46 @@
+body {
+    text-align: center;
+    font-family: 'Indie Flower', cursive;
+    font-size: 32px;
+    /*background-color: rgba(0, 0, 0, 0.9);*/
+}
+
+span {
+    color: white;
+}
+
+p {
+    color: lightgreen;
+}
+
+/* CHAT */
+#login {
+    display: none;
+}
+
+#gotoregister {
+    display: none;
+}
+
+#messenger {
+    display: none;
+}
+
+textarea {
+    background-color: aqua;
+    text-align: center;
+    font-family: 'Indie Flower', cursive;
+    font-size: 18px;
+}
+
+#userchat {
+    margin-left: -5px;
+}
+
+button {
+    font-family: 'Indie Flower', cursive;
+}
+
+input {
+    width: 350px;
+}

@@ -1,0 +1,19 @@
+.boxes2 {
+    display: inline-block;
+}
+
+span {
+    width: 100px;
+    text-align: center;
+}
+
+.inline {
+    display: inline;
+    position: relative;
+    top: 20px;
+    bottom: 0px;
+}
+
+div {
+    font-size: 30px;
+}

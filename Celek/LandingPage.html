@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Vítej!</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script src="json.js"></script>
+    <script src="http://ajax.damto.cz/lsjsonhelper.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link href="json.css" rel="stylesheet">
+</head>
+
+<body onload="nameDay(); timeIncrement(); colorTime()">
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e1bbe8;">
+        <a class="navbar-brand" href="#">All of my work</a>
+        <div class="collapse navbar-collapse">
+            
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="https://facebook.com" target="_new">Facebook</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">  
+        <div class="jumbotron bg-dark">
+            <h1 class="display-4">I wish you a great day... ♥</h1>
+            <span class="lead" id="output"></span><br><br>
+            <span id="output2"></span>
+                <p><a href="TicTacHoe/tictactoe.html">Play TicTacHoe</a></p><br>
+                <p><a href="guess/guess.html">Play Guess The Number</a></p><br>
+                <p><a href="Timers/timerzz.html">Play Timed Number</a></p><br>
+                <p><a href="Triangle/minecraft.html">Calculate Triangle</a></p>
+        </div>
+
+        <div id="userfullname">
+            <label for="fullname">Full name:</label>
+            <input type="text" id="fullname" placeholder="Kryštof Bezděk" required>
+        </div><br>
+        
+        <div id="divUsername">
+            <label for="username">Username: </label>
+            <input type="text" id="username" placeholder="germit8" required><br><br>
+        </div>
+    
+        <div id="useremail">
+            <label for="email">Email: </label>
+            <input type="email" id="email" placeholder="krystof.bezdek@gmail.com" required><br><br>
+        </div>
+    
+        <div id="divPassword">
+            <label for="password">Password: </label>
+            <input type="password" id="password" placeholder="Password" required><br><br>
+        </div>
+    
+        <div id="userconfirmpassword">
+            <label for="confirmpassword">Confirm password: </label>
+            <input type="password" id="confirmpassword" placeholder="Confirm password"><br><br>
+        </div>
+    
+        <button id="register" onclick="register()">Register</button>
+        <button id="login" onclick="login()">Login</button>
+        <button id="gotologin" onclick="goToLogin()">Go to login</button>
+        <button id="gotoregister" onclick="goToRegister()">Go to register</button>
+        <p id="pass"></p>
+        <p id="mail"></p><br><br>
+    
+        <div id="messenger">
+            <label for="userchat">Chat: </label><br><br>
+            <textarea id="userchat" cols="70" rows="10" readonly></textarea><br><br>
+    
+            <label for="usermessage">Message: </label><br><br>
+            <input type="text" id="usermessage" placeholder="Type your message here">
+            <button id="sendMessage" onclick="showMessages()">Send</button><br><br>
+            <button id="logout" onclick="logout()">Logout</button>
+        </div>
+    </div>    
+</body>
+<script src="events.js"></script>
+</html>

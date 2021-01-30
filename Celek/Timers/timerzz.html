@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script src="http://ajax.damto.cz/lsjsonhelper.js"></script>
+    <link href="stylyTimerzz.css" type="text/css" rel="stylesheet">
+	<title>Timer</title>
+</head>
+
+<body onload="clockTime(); colorTiming()">
+<h1>Časovače a procvičování matematiky</h1>
+Čas: <span id="time"></span>
+<br>
+	<div class="boxes1">
+		<section class="relative">
+			<input type="button" value="Random Number Generator" onclick="randomizeNumber()">
+			<input type="text" id="randomizeNumber" readonly="readonly" placeholder="Random Number">
+		</section>
+
+		<section class="inline">
+			<input type="button" value="Stop" onclick="stopTime()">
+			<input type="button" value="Continue" onclick="autoTimer()">
+			<span id="output">5</span>
+		</section>
+	</div>
+
+	<br>
+<!------------------------------------------------------------------------------------------------>
+	<div>
+		<section class="boxes2">
+			<input type="button" value="Generate Nums" onclick="giveMeRandomNumbers()">
+			<input type="button" value="Check" onclick="checkIt()">
+			<span id="operationOfRandomNumbers">Operation</span>
+			<input type="number" id="resultNumber" placeholder="Result" onkeyup="pressKey(event)">
+			<span id="resultMessage">Result Message</span>
+			<input type="button" value="Reset" onclick="resetIt()">
+		</section>
+
+		<p>Press Enter or 'Check It' to submit your answer and press Spacebar or 'Reset' to reset all values.<br>
+		Everything will automatically reset 2 seconds after submitting your answer
+		</p>
+	</div>
+	<script src="funkceTimerzz.js"></script>
+</body>
+</html>
