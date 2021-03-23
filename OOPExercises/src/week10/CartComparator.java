@@ -17,6 +17,7 @@ public class CartComparator implements Comparator<ShoppingCart> {
         List<Double> prices = cart.getItemPrices();
         double sum = 0;
 
+        if (prices.size() == 0) return sum;
         for (double price : prices) sum += price;
 
         return sum / prices.size();
