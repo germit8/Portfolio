@@ -1,5 +1,6 @@
 public class CartComparatorName extends CartComparator {
     
+    @Override
     public int compare(ShoppingCart a, ShoppingCart b) {
         String nameA = a.getUserName();
         String nameB = b.getUserName();
