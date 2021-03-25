@@ -5,17 +5,28 @@ package animals;
  * - change the name, parameters or return types of provided methods
  * - remove it entirely
  */
-public abstract class Animal
-{
+public abstract class Animal {
+
+	private final String nickname;
+
+	public Animal(String nickname) {
+		this.nickname = nickname;
+	}
+
 	/**
 	 * @return Returns this animal's given name.
 	 */
-	public abstract String getNickname();
+	public String getNickname() {
+		return nickname;
+	}
 	
 	/**
 	 * Check whether two animals can live together.
 	 * @param animal The animal for which to check compatibility with this animal.
 	 * @return Returns true for compatible animals and false otherwise.
 	 */
-	public abstract boolean isCompatibleWith(Animal animal);
+	public boolean isCompatibleWith(Animal animal) {
+		if (animal == null) throw new NullPointerException();
+		return false;
+	}
 }
