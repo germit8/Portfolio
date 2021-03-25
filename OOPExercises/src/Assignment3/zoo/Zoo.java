@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import animals.Animal;
-import zoo.Codes;
 import areas.IArea;
+import areas.Entrance;
+import areas.Habitat;
+import areas.Area;
+import dataStructures.ICashCount;
 
 public class Zoo implements IZoo {
     
@@ -17,8 +20,9 @@ public class Zoo implements IZoo {
     }
 
     public int addArea(IArea area) {
-        areas.put(area.getAreaID(), area);
-        return area.getAreaID();
+        Area newArea = (Area) area;
+        areas.put(newArea.getAreaID(), newArea);
+        return newArea.getAreaID();
     }
 
     public void removeArea(int areaID) {
@@ -26,16 +30,19 @@ public class Zoo implements IZoo {
     }
 
     public IArea getArea(int areaID) {
+        if (areas.get(areaID) == null) System.out.println("Area with ID: " + areaID + " is not in this zoo.");
         return areas.get(areaID);
     }
 
     public byte addAnimal(int areaID, Animal animal) {
         int areaDistinguisher = areaID / 100;
-        IArea area = getArea(areaID);
         
         if (areaDistinguisher == 4) return Codes.NOT_A_HABITAT;
-        else if (!area.getAllowedAnimals().contains(animal.toString())) return Codes.WRONG_HABITAT;
-        else if (area.getMaxCapacity() == area.getCurrentCapacity()) return Codes.HABITAT_FULL;
+
+        Habitat area = (Habitat) getArea(areaID);
+        
+        if (!area.getAllowedAnimals().contains(animal.toString())) return Codes.WRONG_HABITAT;
+        if (area.getMaxCapacity() == area.getCurrentCapacity()) return Codes.HABITAT_FULL;
         
         for (Animal anim : area.getAnimals()) {
             if (!animal.isCompatibleWith(anim)) return Codes.INCOMPATIBLE_INHABITANTS;
@@ -43,6 +50,10 @@ public class Zoo implements IZoo {
 
         area.addAnimal(animal);
         return Codes.ANIMAL_ADDED;
+    }
+
+    public HashMap<Integer, IArea> getAreasWithCodes() {
+        return areas;
     }
 
     // -----------------------------------------------------------------------

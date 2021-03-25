@@ -2,7 +2,7 @@ package areas;
 
 import java.util.ArrayList;
 
-public class Aquarium extends Habitat implements IArea {
+public class Aquarium extends Habitat {
     
     public Aquarium(int maxCapacity) {
         super(maxCapacity, 3);
@@ -11,5 +11,10 @@ public class Aquarium extends Habitat implements IArea {
     @Override
     public ArrayList<Integer> getAdjacentAreas() {
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Aquarium-" + this.getAreaID();
     }
 }

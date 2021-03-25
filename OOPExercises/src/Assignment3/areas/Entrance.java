@@ -23,4 +23,9 @@ public class Entrance implements IArea {
     public ArrayList<Integer> getAdjacentAreas() {
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "Entrance";
+    }
 }

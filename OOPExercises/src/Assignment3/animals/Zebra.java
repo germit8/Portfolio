@@ -1,5 +1,4 @@
 package animals;
-import animals.Animal;
 
 public class Zebra extends Animal {
     

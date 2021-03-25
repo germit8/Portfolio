@@ -16,7 +16,6 @@ public class AreaTest {
         PicnicArea picnic1 = new PicnicArea();
         PicnicArea picnic2 = new PicnicArea();
         Entrance entrance = Entrance.getEntrance();
-        Entrance entrance1 = Entrance.getEntrance();
 
         System.out.println(picnic1.getNumOfAreas());
         System.out.println(picnic2.getNumOfAreas());

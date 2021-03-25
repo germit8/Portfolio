@@ -1,6 +1,6 @@
 package areas;
 
-public abstract class Area {
+public abstract class Area implements IArea {
     
     private static int numOfAreas = 0;
     private final int areaID;

@@ -1,9 +1,8 @@
 package areas;
 
-import areas.IArea;
 import java.util.ArrayList;
 
-public class Enclosure extends Habitat implements IArea {
+public class Enclosure extends Habitat {
     
     public Enclosure(int maxCapacity) {
         super(maxCapacity, 2);
@@ -12,5 +11,10 @@ public class Enclosure extends Habitat implements IArea {
     @Override
     public ArrayList<Integer> getAdjacentAreas() {
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Enclosure-" + this.getAreaID();
     }
 }
