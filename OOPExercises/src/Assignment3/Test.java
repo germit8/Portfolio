@@ -2,7 +2,7 @@ import areas.*;
 import animals.*;
 import zoo.*;
 
-public class ZooTest {
+public class Test {
 
     public static void main(String[] args) {
 

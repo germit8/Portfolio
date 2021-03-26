@@ -26,6 +26,6 @@ public class Entrance implements IArea {
 
     @Override
     public String toString() {
-        return "Entrance";
+        return "Entrance_0";
     }
 }

@@ -39,16 +39,16 @@ public class Zoo implements IZoo {
         
         if (areaDistinguisher == 4) return Codes.NOT_A_HABITAT;
 
-        Habitat area = (Habitat) getArea(areaID);
+        Habitat habitat = (Habitat) getArea(areaID);
+
+        if (!habitat.getAllowedAnimals().contains(animal.toString())) return Codes.WRONG_HABITAT;
+        if (habitat.getMaxCapacity() == habitat.getCurrentCapacity()) return Codes.HABITAT_FULL;
         
-        if (!area.getAllowedAnimals().contains(animal.toString())) return Codes.WRONG_HABITAT;
-        if (area.getMaxCapacity() == area.getCurrentCapacity()) return Codes.HABITAT_FULL;
-        
-        for (Animal anim : area.getAnimals()) {
-            if (!animal.isCompatibleWith(anim)) return Codes.INCOMPATIBLE_INHABITANTS;
+        for (Animal thatAnim : habitat.getAnimals()) {
+            if (!animal.isCompatibleWith(thatAnim)) return Codes.INCOMPATIBLE_INHABITANTS;
         }
 
-        area.addAnimal(animal);
+        habitat.addAnimal(animal);
         return Codes.ANIMAL_ADDED;
     }
 

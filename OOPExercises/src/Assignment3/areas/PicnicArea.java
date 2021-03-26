@@ -1,6 +1,5 @@
 package areas;
 
-import areas.IArea;
 import java.util.ArrayList;
 
 public class PicnicArea extends Area {
@@ -16,6 +15,6 @@ public class PicnicArea extends Area {
 
     @Override
     public String toString() {
-        return "PicnicArea-" + this.getAreaID();
+        return "PicnicArea_" + this.getAreaID();
     }
 }

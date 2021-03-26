@@ -15,6 +15,6 @@ public class Cage extends Habitat {
 
     @Override
     public String toString() {
-        return "Cage-" + this.getAreaID();
+        return "Cage_" + this.getAreaID();
     }
 }

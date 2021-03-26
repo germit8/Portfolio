@@ -15,6 +15,6 @@ public class Enclosure extends Habitat {
 
     @Override
     public String toString() {
-        return "Enclosure-" + this.getAreaID();
+        return "Enclosure_" + this.getAreaID();
     }
 }

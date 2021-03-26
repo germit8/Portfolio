@@ -15,6 +15,6 @@ public class Aquarium extends Habitat {
 
     @Override
     public String toString() {
-        return "Aquarium-" + this.getAreaID();
+        return "Aquarium_" + this.getAreaID();
     }
 }
