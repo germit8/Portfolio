@@ -1,7 +1,6 @@
 package areas;
-import java.util.ArrayList;
 
-public class Entrance implements IArea {
+public class Entrance extends Path {
     
     private final static int ID = 0;
     private static Entrance entrance = new Entrance();
@@ -17,11 +16,6 @@ public class Entrance implements IArea {
 
     public int getEntranceID() {
         return ID;
-    }
-
-    @Override
-    public ArrayList<Integer> getAdjacentAreas() {
-        return null;
     }
 
     @Override

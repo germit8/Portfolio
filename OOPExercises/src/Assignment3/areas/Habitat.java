@@ -29,6 +29,14 @@ public abstract class Habitat extends Area {
         return animals;
     }
 
+    public ArrayList<String> getAnimalsNames() {
+        ArrayList<String> animalNames = new ArrayList<>();
+        for (Animal animal : this.animals) {
+            animalNames.add(animal.getNickname());
+        }
+        return animalNames;
+    }
+
     public ArrayList<String> getAllowedAnimals() {
         return allowedAnimals;
     }

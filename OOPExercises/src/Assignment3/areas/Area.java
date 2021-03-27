@@ -1,24 +1,32 @@
 package areas;
 
-public abstract class Area implements IArea {
+public abstract class Area extends Path {
     
-    private static int numOfAreas = 0;
-    private final int areaID;
-
+    private int areaID;
+    private final int areaSubID;
+    private boolean isAPartOfZoo = false;
+    
     Area(int areaSubId) {
-        this.areaID = generateNewAreaID(areaSubId);
+        this.areaSubID = areaSubId;
     }
 
-    public int getNumOfAreas() {
-        return numOfAreas;
+    public void setAreaID(int newID) {
+        areaID = newID;
     }
 
-    public int generateNewAreaID(int areaSubId) {
-        numOfAreas++;
-        return 100 * areaSubId + numOfAreas;
+    public void setIsAPartOfZoo() {
+        isAPartOfZoo = true;
+    }
+
+    public int getAreaSubID() {
+        return areaSubID;
     }
 
     public int getAreaID() {
         return areaID;
+    }
+
+    public boolean getIsAPartOfZoo() {
+        return isAPartOfZoo;
     }
 }

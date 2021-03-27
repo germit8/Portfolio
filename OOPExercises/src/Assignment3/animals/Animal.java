@@ -27,6 +27,7 @@ public abstract class Animal {
 	 */
 	public boolean isCompatibleWith(Animal animal) {
 		if (animal == null) throw new NullPointerException();
+		else if (this.toString().equals(animal.toString())) return true;
 		return false;
 	}
 }
