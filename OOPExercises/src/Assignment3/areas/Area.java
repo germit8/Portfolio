@@ -14,8 +14,8 @@ public abstract class Area extends Path {
         areaID = newID;
     }
 
-    public void setIsAPartOfZoo() {
-        isAPartOfZoo = true;
+    public void setIsAPartOfZoo(boolean zooPart) {
+        isAPartOfZoo = zooPart;
     }
 
     public int getAreaSubID() {

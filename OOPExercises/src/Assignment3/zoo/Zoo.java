@@ -21,18 +21,21 @@ public class Zoo implements IZoo {
     private final Entrance entrance = Entrance.getEntrance();
 
     public Zoo() {
-        this.areas = new HashMap<>(Map.of(0, entrance));
+        this.areas = new HashMap<>(Map.of(entrance.getEntranceID(), entrance));
     }
 
+    // check for entrance
     public int addArea(IArea area) {
         Area newArea = (Area) area;
+
         if (!newArea.getIsAPartOfZoo()) {
             int areaId = generateNewAreaID(newArea.getAreaSubID());
-            newArea.setIsAPartOfZoo();
+            newArea.setIsAPartOfZoo(true);
             newArea.setAreaID(areaId);
             areas.put(areaId, newArea);
             return areaId;
         }
+
         return newArea.getAreaID();
     }
 
@@ -58,9 +61,8 @@ public class Zoo implements IZoo {
     }
 
     public byte addAnimal(int areaID, Animal animal) {
-        int areaDistinguisher = areaID / 100;
         
-        if (areaDistinguisher == 4) return Codes.NOT_A_HABITAT;
+        if (areaID / 100 == 4) return Codes.NOT_A_HABITAT;
 
         Habitat habitat = (Habitat) getArea(areaID);
 
@@ -84,8 +86,6 @@ public class Zoo implements IZoo {
     public void connectAreas(int fromAreaId, int toAreaId) {
         if (fromAreaId != toAreaId) {
             ((Path) getArea(fromAreaId)).addAdjacentAreas(toAreaId);
-        } else {
-            System.out.println("Cannot connect area to itself");
         }
     }
 
@@ -120,12 +120,10 @@ public class Zoo implements IZoo {
         for (int key : areas.keySet()) {
             allAdjacentAreas.addAll(areas.get(key).getAdjacentAreas());
         }
-        Set<Integer> filteredAreas = new HashSet<>(allAdjacentAreas);
-        allAdjacentAreas.clear();
-        allAdjacentAreas.addAll(filteredAreas);
-
+        removeDuplicates(allAdjacentAreas);
         unreachableAreas = getArrayIntersection(new ArrayList<>(areas.keySet()), allAdjacentAreas);
-        unreachableAreas.remove((Integer) 0);
+        unreachableAreas.remove((Integer) entrance.getEntranceID());
+        
         return unreachableAreas;
     }
 
@@ -139,6 +137,12 @@ public class Zoo implements IZoo {
         }
 
         return intersection;
+    }
+
+    public void removeDuplicates(ArrayList<Integer> arrayList) {
+        Set<Integer> filteredAreas = new HashSet<>(arrayList);
+        arrayList.clear();
+        arrayList.addAll(filteredAreas);
     }
     // ------------------------------------------------------------------------
 

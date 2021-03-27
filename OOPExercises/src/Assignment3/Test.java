@@ -24,6 +24,7 @@ public class Test {
         Aquarium aquarium = new Aquarium(20);
         Enclosure enclosure1 = new Enclosure(10);
         Enclosure enclosure2 = new Enclosure(20);
+        Enclosure enclosure3 = new Enclosure(20);
         Cage cage = new Cage(5);
 
         zoo.addArea(picnic);
@@ -36,7 +37,7 @@ public class Test {
         zoo2.addArea(picnic);
         zoo2.addArea(enclosure1);
         zoo2.addArea(cage);
-        zoo2.addArea(enclosure2);
+        zoo2.addArea(enclosure3);
 
         zoo.removeArea(100);
         System.out.println(zoo.getArea(203).toString());
