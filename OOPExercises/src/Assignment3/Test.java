@@ -28,6 +28,9 @@ public class Test {
         Cage cage = new Cage(5);
 
         zoo.addArea(picnic);
+        zoo.removeArea(401);
+        zoo.removeArea(0);
+        zoo.addArea(picnic);
         zoo.addArea(aquarium);
         zoo.addArea(enclosure1);
         zoo.addArea(enclosure2);
@@ -42,6 +45,9 @@ public class Test {
         zoo.removeArea(100);
         System.out.println(zoo.getArea(203).toString());
         System.out.println(zoo.getArea(0).toString());
+        System.out.println(zoo.getCash().toString());
+        zoo.setEntranceFee(17, 80);
+        System.out.println(zoo.getEntranceFee());
         System.out.println(zoo.getAreasWithCodes().toString());
         System.out.println(zoo2.getAreasWithCodes().toString());
 
@@ -67,6 +73,7 @@ public class Test {
         byte cageAdd = zoo.addAnimal(302, shark);
 
         zoo.connectAreas(0, 401);
+        zoo.connectAreas(401, 1000);
         zoo.connectAreas(401, 203);
         zoo.connectAreas(302, 203);
         zoo.connectAreas(203, 204);

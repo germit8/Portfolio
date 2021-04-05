@@ -2,7 +2,7 @@ package areas;
 
 public abstract class Area extends Path {
     
-    private int areaID;
+    private int areaID = 1;
     private final int areaSubID;
     private boolean isAPartOfZoo = false;
     

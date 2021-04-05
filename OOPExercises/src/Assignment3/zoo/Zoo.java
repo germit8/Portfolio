@@ -13,12 +13,15 @@ import areas.Habitat;
 import areas.Area;
 import areas.Path;
 import dataStructures.ICashCount;
+import dataStructures.CashCount;
 
 public class Zoo implements IZoo {
     
+    private int entranceFeeTotalInPence;
     private int numOfAreas = 0;
     private HashMap<Integer, IArea> areas;
     private final Entrance entrance = Entrance.getEntrance();
+    private ICashCount cashSupply = new CashCount();
 
     public Zoo() {
         this.areas = new HashMap<>(Map.of(entrance.getEntranceID(), entrance));
@@ -26,14 +29,18 @@ public class Zoo implements IZoo {
 
     // check for entrance
     public int addArea(IArea area) {
+        if (area instanceof Entrance) return 0;
         Area newArea = (Area) area;
 
         if (!newArea.getIsAPartOfZoo()) {
-            int areaId = generateNewAreaID(newArea.getAreaSubID());
+            if (newArea.getAreaID() == 1) {
+                int areaId = generateNewAreaID(newArea.getAreaSubID());
+                newArea.setAreaID(areaId);
+                areas.put(areaId, newArea);
+            } else {
+                areas.put(newArea.getAreaID(), newArea);
+            }
             newArea.setIsAPartOfZoo(true);
-            newArea.setAreaID(areaId);
-            areas.put(areaId, newArea);
-            return areaId;
         }
 
         return newArea.getAreaID();
@@ -49,10 +56,15 @@ public class Zoo implements IZoo {
     }
 
     public void removeArea(int areaID) {
-        for (int key : areas.keySet()) {
-            areas.get(key).getAdjacentAreas().remove((Integer) areaID);
+        if (areaID != 0) {
+            for (int key : areas.keySet()) {
+                areas.get(key).getAdjacentAreas().remove((Integer) areaID);
+            }
+            Area theArea = (Area) getArea(areaID);
+            if (theArea != null) theArea.setIsAPartOfZoo(false);
+            areas.remove(areaID);
         }
-        areas.remove(areaID);
+        
     }
 
     public IArea getArea(int areaID) {
@@ -84,8 +96,10 @@ public class Zoo implements IZoo {
     // -----------------------------------------------------------------------
 
     public void connectAreas(int fromAreaId, int toAreaId) {
-        if (fromAreaId != toAreaId) {
-            ((Path) getArea(fromAreaId)).addAdjacentAreas(toAreaId);
+        if (areas.containsKey((Integer) fromAreaId) && areas.containsKey((Integer) toAreaId)) {
+            if (fromAreaId != toAreaId) {
+                ((Path) getArea(fromAreaId)).addAdjacentAreas(toAreaId);
+            }
         }
     }
 
@@ -123,7 +137,7 @@ public class Zoo implements IZoo {
         removeDuplicates(allAdjacentAreas);
         unreachableAreas = getArrayIntersection(new ArrayList<>(areas.keySet()), allAdjacentAreas);
         unreachableAreas.remove((Integer) entrance.getEntranceID());
-        
+
         return unreachableAreas;
     }
 
@@ -146,12 +160,20 @@ public class Zoo implements IZoo {
     }
     // ------------------------------------------------------------------------
 
+    public ICashCount getCash() {
+        return cashSupply;
+    }
+
+    public int getEntranceFee() {
+        return entranceFeeTotalInPence;
+    }
+
     public void setEntranceFee(int pounds, int pence) {
-        
+        entranceFeeTotalInPence = pence + pounds * 100;
     }
 
     public void setCashSupply(ICashCount coins) {
-        
+        cashSupply = coins;
     }
 
     public ICashCount getCashSupply() {
