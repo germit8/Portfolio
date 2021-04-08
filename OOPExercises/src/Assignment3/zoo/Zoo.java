@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Collections;
 
 import animals.Animal;
 import areas.IArea;
@@ -21,7 +22,7 @@ public class Zoo implements IZoo {
     private int numOfAreas = 0;
     private HashMap<Integer, IArea> areas;
     private final Entrance entrance = Entrance.getEntrance();
-    private ICashCount cashSupply = new CashCount();
+    private CashCount cashSupply = new CashCount();
 
     public Zoo() {
         this.areas = new HashMap<>(Map.of(entrance.getEntranceID(), entrance));
@@ -74,7 +75,7 @@ public class Zoo implements IZoo {
 
     public byte addAnimal(int areaID, Animal animal) {
         
-        if (areaID / 100 == 4) return Codes.NOT_A_HABITAT;
+        if (areaID / 100 == 4 || areaID == 0) return Codes.NOT_A_HABITAT;
 
         Habitat habitat = (Habitat) getArea(areaID);
 
@@ -96,7 +97,7 @@ public class Zoo implements IZoo {
     // -----------------------------------------------------------------------
 
     public void connectAreas(int fromAreaId, int toAreaId) {
-        if (areas.containsKey((Integer) fromAreaId) && areas.containsKey((Integer) toAreaId)) {
+        if (areas.containsKey(fromAreaId) && areas.containsKey(toAreaId)) {
             if (fromAreaId != toAreaId) {
                 ((Path) getArea(fromAreaId)).addAdjacentAreas(toAreaId);
             }
@@ -160,10 +161,6 @@ public class Zoo implements IZoo {
     }
     // ------------------------------------------------------------------------
 
-    public ICashCount getCash() {
-        return cashSupply;
-    }
-
     public int getEntranceFee() {
         return entranceFeeTotalInPence;
     }
@@ -173,15 +170,41 @@ public class Zoo implements IZoo {
     }
 
     public void setCashSupply(ICashCount coins) {
-        cashSupply = coins;
+        cashSupply = (CashCount) coins;
     }
 
     public ICashCount getCashSupply() {
-        return null;
+        return cashSupply;
     }
 
     public ICashCount payEntranceFee(ICashCount cashInserted) {
-        return null;
+        CashCount cashIn = (CashCount) cashInserted;
+
+        if (entranceFeeTotalInPence < cashIn.getCashSum()) {
+            return calculateChange(cashIn);
+        } else if (entranceFeeTotalInPence > cashIn.getCashSum()) {
+            return cashInserted;
+        }
+        return new CashCount();
     }
 
+    public ICashCount calculateChange(CashCount cashIn) {
+        int desiredChange = cashIn.getCashSum() - entranceFeeTotalInPence;
+        CashCount theChange = new CashCount();
+
+        if (desiredChange % 10 != 0) return cashIn;
+
+        for (int key : cashIn.getCoinsAndNotes()) {
+            int numOfCoins = cashSupply.getCashSupply().get(key);
+            while (desiredChange > 0 && numOfCoins > 0 && key <= desiredChange) {
+                desiredChange -= key;
+                numOfCoins--;
+                theChange.getCashSupply().put(key, theChange.getCashSupply().get(key) + 1);
+            }
+        }
+
+        if (desiredChange != 0) return cashIn;
+        
+        return theChange;
+    }
 }

@@ -45,7 +45,6 @@ public class Test {
         zoo.removeArea(100);
         System.out.println(zoo.getArea(203).toString());
         System.out.println(zoo.getArea(0).toString());
-        System.out.println(zoo.getCash().toString());
         zoo.setEntranceFee(17, 80);
         System.out.println(zoo.getEntranceFee());
         System.out.println(zoo.getAreasWithCodes().toString());
@@ -89,7 +88,7 @@ public class Test {
         System.out.println(zoo.findUnreachableAreas().toString());
         System.out.println(zoo.getNumOfAreas());
 
-        zoo.removeArea(203);
+        // zoo.removeArea(203);
         System.out.println(zoo.getAreasWithCodes().toString());
         System.out.println(picnic.getAdjacentAreas().toString());
         System.out.println(aquarium.getAdjacentAreas().toString());

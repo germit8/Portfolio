@@ -5,7 +5,7 @@ public class Entrance extends Path {
     private final static int ID = 0;
     private static Entrance entrance = new Entrance();
 
-    private Entrance() {
+    public Entrance() {
         
     }
 

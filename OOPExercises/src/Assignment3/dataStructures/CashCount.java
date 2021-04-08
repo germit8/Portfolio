@@ -2,10 +2,14 @@ package dataStructures;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CashCount implements ICashCount {
     
     private HashMap<Integer, Integer> cashSupply;
+    private static final ArrayList<Integer> COINS_AND_NOTES = new ArrayList<>(List.of(2000, 1000, 500, 200, 100, 50, 20, 10));
+    private int cashSum;
 
     public CashCount() {
         this.cashSupply = new HashMap<>(Map.of(2000, 0, 
@@ -16,6 +20,14 @@ public class CashCount implements ICashCount {
                                                50, 0,
                                                20, 0,
                                                10, 0));
+    }
+
+    public int calculateCashSum() {
+        int sum = 0;
+        for (Integer key : cashSupply.keySet()) {
+            sum += key * cashSupply.get(key);
+        }
+        return sum;
     }
 
     public void setNrNotes_20pounds(int noteCount) {
@@ -82,5 +94,23 @@ public class CashCount implements ICashCount {
 
     public int getNrCoins_10p() {
         return cashSupply.get(10);
+    }
+
+    public ArrayList<Integer> getCoinsAndNotes() {
+        return COINS_AND_NOTES;
+    }
+
+    public HashMap<Integer, Integer> getCashSupply() {
+        return cashSupply;
+    }
+
+    public int getCashSum() {
+        cashSum = calculateCashSum();
+        return cashSum;
+    }
+
+    @Override
+    public String toString() {
+        return cashSupply.toString();
     }
 }
