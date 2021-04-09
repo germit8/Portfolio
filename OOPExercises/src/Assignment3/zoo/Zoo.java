@@ -1,11 +1,11 @@
 package zoo;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.HashSet;
-import java.util.Collections;
 
 import animals.Animal;
 import areas.IArea;
@@ -22,7 +22,8 @@ public class Zoo implements IZoo {
     private int numOfAreas = 0;
     private HashMap<Integer, IArea> areas;
     private final Entrance entrance = Entrance.getEntrance();
-    private CashCount cashSupply = new CashCount();
+    private ICashCount cashSupply = new CashCount();
+    private static final ArrayList<Integer> COINS_AND_NOTES = new ArrayList<>(List.of(2000, 1000, 500, 200, 100, 50, 20, 10));
 
     public Zoo() {
         this.areas = new HashMap<>(Map.of(entrance.getEntranceID(), entrance));
@@ -170,7 +171,7 @@ public class Zoo implements IZoo {
     }
 
     public void setCashSupply(ICashCount coins) {
-        cashSupply = (CashCount) coins;
+        cashSupply = coins;
     }
 
     public ICashCount getCashSupply() {
@@ -178,33 +179,102 @@ public class Zoo implements IZoo {
     }
 
     public ICashCount payEntranceFee(ICashCount cashInserted) {
-        CashCount cashIn = (CashCount) cashInserted;
 
-        if (entranceFeeTotalInPence < cashIn.getCashSum()) {
-            return calculateChange(cashIn);
-        } else if (entranceFeeTotalInPence > cashIn.getCashSum()) {
+        if (entranceFeeTotalInPence < getCashSum(cashInserted)) {
+            return determineChange(cashInserted);
+        } else if (entranceFeeTotalInPence > getCashSum(cashInserted)) {
             return cashInserted;
         }
         return new CashCount();
     }
 
-    public ICashCount calculateChange(CashCount cashIn) {
-        int desiredChange = cashIn.getCashSum() - entranceFeeTotalInPence;
-        CashCount theChange = new CashCount();
+    public ICashCount determineChange(ICashCount cashIn) {
+        int desiredChange = getCashSum(cashIn) - entranceFeeTotalInPence;
+        ICashCount theChange = new CashCount();
+        ICashCount revertToOriginalSupply = new CashCount(cashSupply);
 
         if (desiredChange % 10 != 0) return cashIn;
 
-        for (int key : cashIn.getCoinsAndNotes()) {
-            int numOfCoins = cashSupply.getCashSupply().get(key);
-            while (desiredChange > 0 && numOfCoins > 0 && key <= desiredChange) {
-                desiredChange -= key;
+        for (int moneyPiece : COINS_AND_NOTES) {
+            setCoinOrNoteState(moneyPiece, cashSupply, getCoinOrNoteState(moneyPiece, cashIn));
+            int numOfCoins = getCoinOrNoteState(moneyPiece, cashSupply);
+            
+            while (desiredChange > 0 && numOfCoins > 0 && moneyPiece <= desiredChange) {
+                desiredChange -= moneyPiece;
                 numOfCoins--;
-                theChange.getCashSupply().put(key, theChange.getCashSupply().get(key) + 1);
+                setCoinOrNoteState(moneyPiece, theChange, 1);
+                setCoinOrNoteState(moneyPiece, cashSupply, -1);
             }
         }
 
-        if (desiredChange != 0) return cashIn;
+        if (desiredChange != 0) {
+            cashSupply = revertToOriginalSupply;
+            return cashIn;
+        }
         
         return theChange;
+    }
+
+    public int getCashSum(ICashCount cashCount) {
+        return cashCount.getNrNotes_20pounds() * 2000 +
+               cashCount.getNrNotes_10pounds() * 1000 +
+               cashCount.getNrNotes_5pounds() * 500 +
+               cashCount.getNrCoins_2pounds() * 200 +
+               cashCount.getNrCoins_1pound() * 100 +
+               cashCount.getNrCoins_50p() * 50 +
+               cashCount.getNrCoins_20p() * 20 +
+               cashCount.getNrCoins_10p() * 10;
+    }
+
+    public int getCoinOrNoteState(int moneyValue, ICashCount cash) {
+        switch (moneyValue) {
+            case 2000:
+                return cash.getNrNotes_20pounds();
+            case 1000:
+                return cash.getNrNotes_10pounds();
+            case 500:
+                return cash.getNrNotes_5pounds();
+            case 200:
+                return cash.getNrCoins_2pounds();
+            case 100:
+                return cash.getNrCoins_1pound();
+            case 50:
+                return cash.getNrCoins_50p();
+            case 20:
+                return cash.getNrCoins_20p();
+            case 10:
+                return cash.getNrCoins_10p();
+        }
+        return 0;
+    }
+
+    public void setCoinOrNoteState(int moneyValue, ICashCount cash, int addAmount) {
+        int amountOfMoneyAlreadyInside = addAmount + getCoinOrNoteState(moneyValue, cash);
+        switch (moneyValue) {
+            case 2000:
+                cash.setNrNotes_20pounds(amountOfMoneyAlreadyInside);
+                break;
+            case 1000:
+                cash.setNrNotes_10pounds(amountOfMoneyAlreadyInside);
+                break;
+            case 500:
+                cash.setNrNotes_5pounds(amountOfMoneyAlreadyInside);
+                break;
+            case 200:
+                cash.setNrCoins_2pounds(amountOfMoneyAlreadyInside);
+                break;
+            case 100:
+                cash.setNrCoins_1pound(amountOfMoneyAlreadyInside);
+                break;
+            case 50:
+                cash.setNrCoins_50p(amountOfMoneyAlreadyInside);
+                break;
+            case 20:
+                cash.setNrCoins_20p(amountOfMoneyAlreadyInside);
+                break;
+            case 10:
+                cash.setNrCoins_10p(amountOfMoneyAlreadyInside);
+                break;
+        }
     }
 }
