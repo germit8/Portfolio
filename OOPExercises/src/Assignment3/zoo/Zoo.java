@@ -184,8 +184,10 @@ public class Zoo implements IZoo {
             return determineChange(cashInserted);
         } else if (entranceFeeTotalInPence > getCashSum(cashInserted)) {
             return cashInserted;
+        } else {
+            addMoneyForExactPayment(cashInserted);
+            return new CashCount();
         }
-        return new CashCount();
     }
 
     public ICashCount determineChange(ICashCount cashIn) {
@@ -213,6 +215,12 @@ public class Zoo implements IZoo {
         }
         
         return theChange;
+    }
+
+    public void addMoneyForExactPayment(ICashCount cashIn) {
+        for (int moneyPiece : COINS_AND_NOTES) {
+            setCoinOrNoteState(moneyPiece, cashSupply, getCoinOrNoteState(moneyPiece, cashIn));
+        }
     }
 
     public int getCashSum(ICashCount cashCount) {

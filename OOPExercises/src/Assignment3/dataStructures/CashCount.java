@@ -111,6 +111,6 @@ public class CashCount implements ICashCount {
 
     @Override
     public String toString() {
-        return cashSupply.toString();
+        return "Amount of money: " + getCashSum() / 100.0 + "£. In notes and coins: " + cashSupply.toString();
     }
 }
