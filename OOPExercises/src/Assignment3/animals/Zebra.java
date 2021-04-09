@@ -9,7 +9,7 @@ public class Zebra extends Animal {
     @Override
     public boolean isCompatibleWith(Animal animal) {
         if (animal == null) throw new NullPointerException();
-        else if (animal.toString() == "Lion") return false;
+        else if (animal.toString().equals("Lion")) return false;
         else return true;
     }
 

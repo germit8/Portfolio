@@ -17,30 +17,6 @@ public abstract class Habitat extends Area {
         this.allowedAnimals = allowedAnimals(areaSubID);
     }
 
-    public int getMaxCapacity() {
-        return maxCapacity;
-    }
-
-    public int getCurrentCapacity() {
-        return currentCapacity;
-    }
-
-    public ArrayList<Animal> getAnimals() {
-        return animals;
-    }
-
-    public ArrayList<String> getAnimalsNames() {
-        ArrayList<String> animalNames = new ArrayList<>();
-        for (Animal animal : this.animals) {
-            animalNames.add(animal.getNickname());
-        }
-        return animalNames;
-    }
-
-    public ArrayList<String> getAllowedAnimals() {
-        return allowedAnimals;
-    }
-
     public void addAnimal(Animal animal) {
         animals.add(animal);
         currentCapacity++;
@@ -56,5 +32,31 @@ public abstract class Habitat extends Area {
                 return new ArrayList<>(List.of("Shark", "Starfish", "Seal"));
         }
         return null;
+    }
+
+    // ----------------------------- GETTERS --------------------------------
+
+    public int getMaxCapacity() {
+        return maxCapacity;
+    }
+
+    public int getCurrentCapacity() {
+        return currentCapacity;
+    }
+
+    public ArrayList<Animal> getAnimals() {
+        return animals;
+    }
+
+    public ArrayList<String> getAllowedAnimals() {
+        return allowedAnimals;
+    }
+
+    public ArrayList<String> getAnimalsNames() {
+        ArrayList<String> animalNames = new ArrayList<>();
+        for (Animal animal : this.animals) {
+            animalNames.add(animal.getNickname());
+        }
+        return animalNames;
     }
 }

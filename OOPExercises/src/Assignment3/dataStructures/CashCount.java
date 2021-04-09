@@ -38,6 +38,8 @@ public class CashCount implements ICashCount {
         return sum;
     }
 
+    // ----------------------------- SETTERS ---------------------------------
+
     public void setNrNotes_20pounds(int noteCount) {
         cashSupply.put(2000, noteCount);
     }
@@ -70,7 +72,7 @@ public class CashCount implements ICashCount {
         cashSupply.put(10, coinCount);
     }
 
-    // --------------------------------------------------------------
+    // ----------------------------- GETTERS ---------------------------------
 
     public int getNrNotes_20pounds() {
         return cashSupply.get(2000);

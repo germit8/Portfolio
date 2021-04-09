@@ -9,7 +9,7 @@ public class Seal extends Animal {
     @Override
     public boolean isCompatibleWith(Animal animal) {
         if (animal == null) throw new NullPointerException();
-        else if (animal.toString() == "Shark") return false;
+        else if (animal.toString().equals("Shark")) return false;
         else return true;
     }
 

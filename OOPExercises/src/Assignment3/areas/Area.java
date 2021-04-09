@@ -10,6 +10,7 @@ public abstract class Area extends Path {
         this.areaSubID = areaSubId;
     }
 
+    // -------------------------------- SETTERS --------------------------------
     public void setAreaID(int newID) {
         areaID = newID;
     }
@@ -17,6 +18,8 @@ public abstract class Area extends Path {
     public void setIsAPartOfZoo(boolean zooPart) {
         isAPartOfZoo = zooPart;
     }
+
+    // -------------------------------- GETTERS --------------------------------
 
     public int getAreaSubID() {
         return areaSubID;

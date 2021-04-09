@@ -13,32 +13,35 @@ import areas.Entrance;
 import areas.Habitat;
 import areas.Area;
 import areas.Path;
-import dataStructures.ICashCount;
-import dataStructures.CashCount;
+import dataStructures.*;
+
 
 public class Zoo implements IZoo {
     
     private int entranceFeeTotalInPence;
     private int numOfAreas = 0;
-    private HashMap<Integer, IArea> areas;
     private final Entrance entrance = Entrance.getEntrance();
     private ICashCount cashSupply = new CashCount();
+    private HashMap<Integer, IArea> areas = new HashMap<>(Map.of(entrance.getEntranceID(), entrance));
     private static final ArrayList<Integer> COINS_AND_NOTES = new ArrayList<>(List.of(2000, 1000, 500, 200, 100, 50, 20, 10));
 
     public Zoo() {
-        this.areas = new HashMap<>(Map.of(entrance.getEntranceID(), entrance));
+
     }
 
-    // check for entrance
+
     public int addArea(IArea area) {
         if (area instanceof Entrance) return 0;
         Area newArea = (Area) area;
 
+        // Checks if area is already assigned to a zoo
         if (!newArea.getIsAPartOfZoo()) {
+            // Every unassigned area has areaID = 1 until it is assigned -> changed
             if (newArea.getAreaID() == 1) {
                 int areaId = generateNewAreaID(newArea.getAreaSubID());
                 newArea.setAreaID(areaId);
                 areas.put(areaId, newArea);
+            // If area has been assigned and then removed, it is only put back again
             } else {
                 areas.put(newArea.getAreaID(), newArea);
             }
@@ -52,6 +55,7 @@ public class Zoo implements IZoo {
         return numOfAreas;
     }
 
+    // ID is generated based on sub-ID (1,2,3,4)
     public int generateNewAreaID(int areaSubId) {
         numOfAreas++;
         return 100 * areaSubId + numOfAreas;
@@ -59,6 +63,7 @@ public class Zoo implements IZoo {
 
     public void removeArea(int areaID) {
         if (areaID != 0) {
+            // First the areaID is removed from all adjacentAreas of all areas
             for (int key : areas.keySet()) {
                 areas.get(key).getAdjacentAreas().remove((Integer) areaID);
             }
@@ -66,7 +71,6 @@ public class Zoo implements IZoo {
             if (theArea != null) theArea.setIsAPartOfZoo(false);
             areas.remove(areaID);
         }
-        
     }
 
     public IArea getArea(int areaID) {
@@ -98,16 +102,21 @@ public class Zoo implements IZoo {
     // -----------------------------------------------------------------------
 
     public void connectAreas(int fromAreaId, int toAreaId) {
-        if (areas.containsKey(fromAreaId) && areas.containsKey(toAreaId)) {
-            if (fromAreaId != toAreaId) {
-                ((Path) getArea(fromAreaId)).addAdjacentAreas(toAreaId);
-            }
+        Path fromArea = (Path) getArea(fromAreaId);
+
+        // Checks if both ID's are in zoo, if they are not identical and if ID is not a duplicate
+        if (areas.containsKey(fromAreaId) && 
+            areas.containsKey(toAreaId) && 
+            fromAreaId != toAreaId &&
+            !fromArea.getAdjacentAreas().contains((Integer) toAreaId)) {
+                fromArea.addAdjacentAreas(toAreaId);
         }
     }
 
     public boolean isPathAllowed(ArrayList<Integer> areaIds) {
         boolean pathIsConnected = true;
         for (int i = 0; i < areaIds.size() - 1; i++) {
+            // Checks if the area to visit (i+1) is in the list of adjacentAreas of the current area (i)
             if (!getArea(areaIds.get(i)).getAdjacentAreas().contains((Integer) areaIds.get(i + 1))) {
                 pathIsConnected = false;
             }
@@ -118,8 +127,10 @@ public class Zoo implements IZoo {
     public ArrayList<String> visit(ArrayList<Integer> areaIdsVisited) {
         ArrayList<String> visitedAnimals = new ArrayList<>();
 
+        // First checks if such path is even allowed
         if (isPathAllowed(areaIdsVisited)) {
             for (Integer num : areaIdsVisited) {
+                // From every habitat, all names of all animals are added to the list
                 if (num != 0 && num / 100 != 4) {
                     visitedAnimals.addAll(((Habitat) getArea(num)).getAnimalsNames());
                 }
@@ -133,25 +144,27 @@ public class Zoo implements IZoo {
         ArrayList<Integer> allAdjacentAreas = new ArrayList<>();
         ArrayList<Integer> unreachableAreas = new ArrayList<>();
 
+        // Makes a list of all possible connections and removes duplicates
         for (int key : areas.keySet()) {
             allAdjacentAreas.addAll(areas.get(key).getAdjacentAreas());
         }
         removeDuplicates(allAdjacentAreas);
+
+        // Finds the intersection of accessible areas and all areas in the zoo - the intersection is the unreachable
         unreachableAreas = getArrayIntersection(new ArrayList<>(areas.keySet()), allAdjacentAreas);
         unreachableAreas.remove((Integer) entrance.getEntranceID());
 
         return unreachableAreas;
     }
 
-    public ArrayList<Integer> getArrayIntersection(ArrayList<Integer> list1, ArrayList<Integer> list2) {
+    public ArrayList<Integer> getArrayIntersection(ArrayList<Integer> longerList, ArrayList<Integer> shorterList) {
         ArrayList<Integer> intersection = new ArrayList<>();
 
-        for (Integer i : list1) {
-            if (!list2.contains(i)) {
+        for (Integer i : longerList) {
+            if (!shorterList.contains(i)) {
                 intersection.add(i);
             }
         }
-
         return intersection;
     }
 
@@ -179,7 +192,6 @@ public class Zoo implements IZoo {
     }
 
     public ICashCount payEntranceFee(ICashCount cashInserted) {
-
         if (entranceFeeTotalInPence < getCashSum(cashInserted)) {
             return determineChange(cashInserted);
         } else if (entranceFeeTotalInPence > getCashSum(cashInserted)) {
@@ -198,9 +210,16 @@ public class Zoo implements IZoo {
         if (desiredChange % 10 != 0) return cashIn;
 
         for (int moneyPiece : COINS_AND_NOTES) {
+
+            // First the given cash is added to the cashSupply pool - this ensures that given money can be used for change
             setCoinOrNoteState(moneyPiece, cashSupply, getCoinOrNoteState(moneyPiece, cashIn));
             int numOfCoins = getCoinOrNoteState(moneyPiece, cashSupply);
             
+            // For every possible note/coin starting from the largest, we check if our target change
+            // is more than 0, if we have still enough of notes/coins of said notes/coin,
+            // and if said note/coin is smaller than our target change
+            // if these conditions are met, we subtract the note/coin from the change,
+            // we decrement the number of coins, we add it to theChange instance and subtract from cashSupply instance
             while (desiredChange > 0 && numOfCoins > 0 && moneyPiece <= desiredChange) {
                 desiredChange -= moneyPiece;
                 numOfCoins--;
@@ -209,6 +228,8 @@ public class Zoo implements IZoo {
             }
         }
 
+        // If it is not possible to give exact change, cashSupply is reverted to its original state
+        // and money is refunded
         if (desiredChange != 0) {
             cashSupply = revertToOriginalSupply;
             return cashIn;
@@ -219,6 +240,7 @@ public class Zoo implements IZoo {
 
     public void addMoneyForExactPayment(ICashCount cashIn) {
         for (int moneyPiece : COINS_AND_NOTES) {
+            // Current state of note/coin of inserted cash is added to cashSupply
             setCoinOrNoteState(moneyPiece, cashSupply, getCoinOrNoteState(moneyPiece, cashIn));
         }
     }
@@ -234,6 +256,7 @@ public class Zoo implements IZoo {
                cashCount.getNrCoins_10p() * 10;
     }
 
+    // Getter for current state of note/coin
     public int getCoinOrNoteState(int moneyValue, ICashCount cash) {
         switch (moneyValue) {
             case 2000:
@@ -256,32 +279,33 @@ public class Zoo implements IZoo {
         return 0;
     }
 
+    // Incrementer/Decrementer of current state of note/coin based on added amount
     public void setCoinOrNoteState(int moneyValue, ICashCount cash, int addAmount) {
-        int amountOfMoneyAlreadyInside = addAmount + getCoinOrNoteState(moneyValue, cash);
+        int currStateOfMoneyAndAdded = addAmount + getCoinOrNoteState(moneyValue, cash);
         switch (moneyValue) {
             case 2000:
-                cash.setNrNotes_20pounds(amountOfMoneyAlreadyInside);
+                cash.setNrNotes_20pounds(currStateOfMoneyAndAdded);
                 break;
             case 1000:
-                cash.setNrNotes_10pounds(amountOfMoneyAlreadyInside);
+                cash.setNrNotes_10pounds(currStateOfMoneyAndAdded);
                 break;
             case 500:
-                cash.setNrNotes_5pounds(amountOfMoneyAlreadyInside);
+                cash.setNrNotes_5pounds(currStateOfMoneyAndAdded);
                 break;
             case 200:
-                cash.setNrCoins_2pounds(amountOfMoneyAlreadyInside);
+                cash.setNrCoins_2pounds(currStateOfMoneyAndAdded);
                 break;
             case 100:
-                cash.setNrCoins_1pound(amountOfMoneyAlreadyInside);
+                cash.setNrCoins_1pound(currStateOfMoneyAndAdded);
                 break;
             case 50:
-                cash.setNrCoins_50p(amountOfMoneyAlreadyInside);
+                cash.setNrCoins_50p(currStateOfMoneyAndAdded);
                 break;
             case 20:
-                cash.setNrCoins_20p(amountOfMoneyAlreadyInside);
+                cash.setNrCoins_20p(currStateOfMoneyAndAdded);
                 break;
             case 10:
-                cash.setNrCoins_10p(amountOfMoneyAlreadyInside);
+                cash.setNrCoins_10p(currStateOfMoneyAndAdded);
                 break;
         }
     }
