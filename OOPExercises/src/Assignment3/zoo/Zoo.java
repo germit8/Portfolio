@@ -203,34 +203,29 @@ public class Zoo implements IZoo {
     }
 
     public ICashCount determineChange(ICashCount cashIn) {
-        int desiredChange = getCashSum(cashIn) - entranceFeeTotalInPence;
+        int targetChange = getCashSum(cashIn) - entranceFeeTotalInPence;
         ICashCount theChange = new CashCount();
         ICashCount revertToOriginalSupply = new CashCount(cashSupply);
 
-        if (desiredChange % 10 != 0) return cashIn;
+        if (targetChange % 10 != 0) return cashIn;
 
-        for (int moneyPiece : COINS_AND_NOTES) {
+        for (int denomination : COINS_AND_NOTES) {
 
             // First the given cash is added to the cashSupply pool - this ensures that given money can be used for change
-            setCoinOrNoteState(moneyPiece, cashSupply, getCoinOrNoteState(moneyPiece, cashIn));
-            int numOfCoins = getCoinOrNoteState(moneyPiece, cashSupply);
+            setCoinOrNoteState(denomination, cashSupply, getCoinOrNoteState(denomination, cashIn));
+            int numOfCoins = getCoinOrNoteState(denomination, cashSupply);
             
-            // For every possible note/coin starting from the largest, we check if our target change
-            // is more than 0, if we have still enough of notes/coins of said notes/coin,
-            // and if said note/coin is smaller than our target change
-            // if these conditions are met, we subtract the note/coin from the change,
-            // we decrement the number of coins, we add it to theChange instance and subtract from cashSupply instance
-            while (desiredChange > 0 && numOfCoins > 0 && moneyPiece <= desiredChange) {
-                desiredChange -= moneyPiece;
+            // It keeps on giving the largest denomination as long as it is possible, then moves to smaller and repeats
+            while (targetChange > 0 && numOfCoins > 0 && denomination <= targetChange) {
+                targetChange -= denomination;
                 numOfCoins--;
-                setCoinOrNoteState(moneyPiece, theChange, 1);
-                setCoinOrNoteState(moneyPiece, cashSupply, -1);
+                setCoinOrNoteState(denomination, theChange, 1);
+                setCoinOrNoteState(denomination, cashSupply, -1);
             }
         }
 
-        // If it is not possible to give exact change, cashSupply is reverted to its original state
-        // and money is refunded
-        if (desiredChange != 0) {
+        // If it is not possible to give exact change, cashSupply is reverted to its original state and money is refunded
+        if (targetChange != 0) {
             cashSupply = revertToOriginalSupply;
             return cashIn;
         }
@@ -239,9 +234,9 @@ public class Zoo implements IZoo {
     }
 
     public void addMoneyForExactPayment(ICashCount cashIn) {
-        for (int moneyPiece : COINS_AND_NOTES) {
+        for (int denomination : COINS_AND_NOTES) {
             // Current state of note/coin of inserted cash is added to cashSupply
-            setCoinOrNoteState(moneyPiece, cashSupply, getCoinOrNoteState(moneyPiece, cashIn));
+            setCoinOrNoteState(denomination, cashSupply, getCoinOrNoteState(denomination, cashIn));
         }
     }
 

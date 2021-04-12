@@ -27,7 +27,7 @@ public class CashTest {
         cash.setNrCoins_10p(0);
 
         zoo.setCashSupply(cash);
-        zoo.setEntranceFee(0, 0);
+        zoo.setEntranceFee(17, 80);
 
         System.out.println("Payment: " + payment.getCashSum());
         System.out.println("Entrance fee: " + zoo.getEntranceFee());
