@@ -3,15 +3,9 @@ package areas;
 public class Entrance extends Path {
     
     private final static int ID = 0;
-    private static Entrance entrance = new Entrance();
 
     public Entrance() {
         
-    }
-
-    public static Entrance getEntrance() {
-        if (entrance == null) return new Entrance();
-        else return entrance;
     }
 
     public int getEntranceID() {

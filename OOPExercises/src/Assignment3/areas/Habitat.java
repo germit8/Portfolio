@@ -11,7 +11,7 @@ public abstract class Habitat extends Area {
     private ArrayList<Animal> animals = new ArrayList<>();
     private final ArrayList<String> allowedAnimals;
 
-    Habitat(int maxCapacity, int areaSubID) {
+    protected Habitat(int maxCapacity, int areaSubID) {
         super(areaSubID);
         this.maxCapacity = maxCapacity;
         this.allowedAnimals = allowedAnimals(areaSubID);

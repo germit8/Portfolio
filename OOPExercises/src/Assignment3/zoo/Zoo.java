@@ -12,7 +12,6 @@ import areas.IArea;
 import areas.Entrance;
 import areas.Habitat;
 import areas.Area;
-import areas.Path;
 import dataStructures.*;
 
 
@@ -20,7 +19,7 @@ public class Zoo implements IZoo {
     
     private int entranceFeeTotalInPence;
     private int numOfAreas = 0;
-    private final Entrance entrance = Entrance.getEntrance();
+    private final Entrance entrance = new Entrance();
     private ICashCount cashSupply = new CashCount();
     private HashMap<Integer, IArea> areas = new HashMap<>(Map.of(entrance.getEntranceID(), entrance));
     private static final ArrayList<Integer> COINS_AND_NOTES = new ArrayList<>(List.of(2000, 1000, 500, 200, 100, 50, 20, 10));
@@ -28,7 +27,6 @@ public class Zoo implements IZoo {
     public Zoo() {
 
     }
-
 
     public int addArea(IArea area) {
         if (area instanceof Entrance) return 0;
@@ -47,12 +45,7 @@ public class Zoo implements IZoo {
             }
             newArea.setIsAPartOfZoo(true);
         }
-
         return newArea.getAreaID();
-    }
-
-    public int getNumOfAreas() {
-        return numOfAreas;
     }
 
     // ID is generated based on sub-ID (1,2,3,4)
@@ -63,13 +56,19 @@ public class Zoo implements IZoo {
 
     public void removeArea(int areaID) {
         if (areaID != 0) {
-            // First the areaID is removed from all adjacentAreas of all areas
-            for (int key : areas.keySet()) {
-                areas.get(key).getAdjacentAreas().remove((Integer) areaID);
-            }
+            removeFromAllAdjacentAreas(areaID);
             Area theArea = (Area) getArea(areaID);
-            if (theArea != null) theArea.setIsAPartOfZoo(false);
+            if (theArea != null) {
+                theArea.setIsAPartOfZoo(false);
+                theArea.getAdjacentAreas().clear();
+            }
             areas.remove(areaID);
+        }
+    }
+
+    public void removeFromAllAdjacentAreas(int areaID) {
+        for (int key : areas.keySet()) {
+            areas.get(key).removeAdjacentArea(areaID);
         }
     }
 
@@ -102,14 +101,13 @@ public class Zoo implements IZoo {
     // -----------------------------------------------------------------------
 
     public void connectAreas(int fromAreaId, int toAreaId) {
-        Path fromArea = (Path) getArea(fromAreaId);
 
         // Checks if both ID's are in zoo, if they are not identical and if ID is not a duplicate
-        if (areas.containsKey(fromAreaId) && 
+        if (areas.containsKey(fromAreaId) &&
             areas.containsKey(toAreaId) && 
             fromAreaId != toAreaId &&
-            !fromArea.getAdjacentAreas().contains((Integer) toAreaId)) {
-                fromArea.addAdjacentAreas(toAreaId);
+            !areas.get(fromAreaId).getAdjacentAreas().contains((Integer) toAreaId)) {
+                areas.get(fromAreaId).addAdjacentArea(toAreaId);
         }
     }
 

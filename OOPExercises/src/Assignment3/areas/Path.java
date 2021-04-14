@@ -6,12 +6,16 @@ public abstract class Path implements IArea {
     
     private ArrayList<Integer> adjacentAreas = new ArrayList<>();
 
-    Path() {
+    protected Path() {
         
     }
 
-    public void addAdjacentAreas(int areaId) {
+    public void addAdjacentArea(int areaId) {
         adjacentAreas.add(areaId);
+    }
+
+    public void removeAdjacentArea(int areaID) {
+        adjacentAreas.remove((Integer) areaID);
     }
 
     @Override

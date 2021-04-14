@@ -8,7 +8,6 @@ public class Starfish extends Animal {
 
     @Override
     public boolean isCompatibleWith(Animal animal) {
-        if (animal == null) throw new NullPointerException();
         return true;
     }
 
