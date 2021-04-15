@@ -8,14 +8,14 @@ public class CashTest {
         CashCount cash = new CashCount();
         CashCount payment = new CashCount();
 
-        payment.setNrNotes_20pounds(0);
-        payment.setNrNotes_10pounds(1);
-        payment.setNrNotes_5pounds(1);
+        payment.setNrNotes_20pounds(1);
+        payment.setNrNotes_10pounds(0);
+        payment.setNrNotes_5pounds(0);
         payment.setNrCoins_2pounds(1);
         payment.setNrCoins_1pound(0);
-        payment.setNrCoins_50p(1);
-        payment.setNrCoins_20p(1);
-        payment.setNrCoins_10p(1);
+        payment.setNrCoins_50p(0);
+        payment.setNrCoins_20p(0);
+        payment.setNrCoins_10p(0);
         
         cash.setNrNotes_20pounds(6);
         cash.setNrNotes_10pounds(5);

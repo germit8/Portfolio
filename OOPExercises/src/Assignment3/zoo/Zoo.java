@@ -73,7 +73,6 @@ public class Zoo implements IZoo {
     }
 
     public IArea getArea(int areaID) {
-        if (areas.get(areaID) == null) System.out.println("Area with ID: " + areaID + " is not in this zoo.");
         return areas.get(areaID);
     }
 
@@ -205,8 +204,6 @@ public class Zoo implements IZoo {
         ICashCount theChange = new CashCount();
         ICashCount revertToOriginalSupply = new CashCount(cashSupply);
 
-        if (targetChange % 10 != 0) return cashIn;
-
         for (int denomination : COINS_AND_NOTES) {
 
             // First the given cash is added to the cashSupply pool - this ensures that given money can be used for change
@@ -220,6 +217,8 @@ public class Zoo implements IZoo {
                 setCoinOrNoteState(denomination, theChange, 1);
                 setCoinOrNoteState(denomination, cashSupply, -1);
             }
+
+            if (targetChange == 0) break;
         }
 
         // If it is not possible to give exact change, cashSupply is reverted to its original state and money is refunded
