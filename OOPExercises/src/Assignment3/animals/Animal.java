@@ -26,7 +26,7 @@ public abstract class Animal {
 	 * @return Returns true for compatible animals and false otherwise.
 	 */
 	public boolean isCompatibleWith(Animal animal) {
-		if (animal == null || this.toString().equals(animal.toString())) return true;
+		if (this.toString().equals(animal.toString())) return true;
 		return false;
 	}
 }
