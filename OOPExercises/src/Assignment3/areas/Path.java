@@ -10,10 +10,12 @@ public abstract class Path implements IArea {
         
     }
 
+    @Override
     public void addAdjacentArea(int areaId) {
         adjacentAreas.add(areaId);
     }
 
+    @Override
     public void removeAdjacentArea(int areaID) {
         adjacentAreas.remove((Integer) areaID);
     }

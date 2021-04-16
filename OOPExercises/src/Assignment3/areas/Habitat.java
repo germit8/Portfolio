@@ -22,7 +22,7 @@ public abstract class Habitat extends Area {
         currentCapacity++;
     }
 
-    public ArrayList<String> allowedAnimals(int areaSubID) {
+    private ArrayList<String> allowedAnimals(int areaSubID) {
         switch (areaSubID) {
             case 1:
                 return new ArrayList<>(List.of("Buzzard", "Parrot"));
